@@ -4,11 +4,7 @@ import React, { createContext, useState } from "react";
 export const Data = createContext();
 
 const DataProvider = ({ children }) => {
-    // #################################################
-    //   EXAMPLE
-    // #################################################
-
-    const [testState, setTestState] = useState(false);
+    const [currPath, setCurrPath] = useState("/");
 
     // #################################################
     //   PROVIDE DATA
@@ -17,9 +13,8 @@ const DataProvider = ({ children }) => {
     return (
         <Data.Provider
             value={{
-                // EXAMPLE
-                testState,
-                setTestState,
+                currPath,
+                setCurrPath,
             }}
         >
             {children}
