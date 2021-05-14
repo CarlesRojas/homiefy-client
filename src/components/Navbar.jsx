@@ -20,6 +20,8 @@ export default function Navbar(props) {
 
     useEffect(() => {
         setCurrPath(window.location.pathname);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
