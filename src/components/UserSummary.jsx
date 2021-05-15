@@ -6,23 +6,29 @@ export default function UserSummary(props) {
     const username = props.username;
     const ammount = props.ammount;
 
-    const width = Math.max(Math.abs(ammount) * 90 / props.maxAmmount, 10);
+    const width = Math.max(Math.abs(ammount) * 75 / props.maxAmmount, 10);
 
     const right = ammount >= 0 
         ? 
             <React.Fragment>
-                <div className="line" style={{width: width+"%"}}/>
-                <div className="icon"/>
+                <div className="line" style={{width: (width)+"%"}}/>
+                <div className="iconDiv">
+                    <div className="icon" onClick={() => props.callback(username)}/>
+                </div>
             </React.Fragment> 
-        : null;
+        : <div className="value">{ammount} €</div>;
 
     const left = ammount < 0 
         ? 
             <React.Fragment>
-                <div className="icon"/>
+                <div className="iconDiv">
+                    <div className="icon" onClick={() => props.callback(username)}></div>
+                </div>
                 <div className="line" style={{width: width+"%"}}/>
             </React.Fragment>
-        : null;
+        : <div className="value">{ammount} €</div>;
+
+    
 
     return (
         <div className="userSummary">

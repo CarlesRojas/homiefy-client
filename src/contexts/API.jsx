@@ -51,7 +51,7 @@ const APIProvider = ({ children }) => {
 
         try {
             // Fetch
-            var rawResponse = await fetch(`${apiURL}/moneySummary`, {
+            var rawResponse = await fetch(`${apiURL}/balance`, {
                 method: "post",
                 headers: {
                     Accept: "application/json, text/plain, */*",
