@@ -68,7 +68,10 @@ export default function MoneySummary() {
                         }}
                         key={`${username}_${key}`}
                         onMouseEnter={() => showData(username, key)}
+                        onPointerEnter={() => showData(username, key)}
+                        onPointerDown={() => showData(username, key)}
                         onMouseLeave={() => showTotal(username)}
+                        onPointerLeave={() => showTotal(username)}
                     />
                 ) : (
                     <React.Fragment key={`${username}_${key}`}>
@@ -80,7 +83,10 @@ export default function MoneySummary() {
                                 "--bg": colors[key],
                             }}
                             onMouseEnter={() => showData(username, key)}
+                            onPointerEnter={() => showData(username, key)}
+                            onPointerDown={() => showData(username, key)}
                             onMouseLeave={() => showTotal(username)}
+                            onPointerLeave={() => showTotal(username)}
                         />
                         <div
                             className="segment"
@@ -90,7 +96,10 @@ export default function MoneySummary() {
                                 "--bg": colors[key],
                             }}
                             onMouseEnter={() => showData(username, key)}
+                            onPointerEnter={() => showData(username, key)}
+                            onPointerDown={() => showData(username, key)}
                             onMouseLeave={() => showTotal(username)}
+                            onPointerLeave={() => showTotal(username)}
                         />
                     </React.Fragment>
                 )
