@@ -140,11 +140,14 @@ export default function MoneySummary() {
                     <div className="balanceContainer">
                         <p className="title">Balance</p>
 
-                        <div className="pie">
-                            {balanceView}
-                            <div className="center">
-                                <div className="centerTitle">{centerTxt[0]}</div>
-                                <div className="text">{centerTxt[1]} €</div>
+                        <div className="pieContainer">
+                            <div className="pie big">{balanceView}</div>
+                            <div className="pie">
+                                {balanceView}
+                                <div className="center">
+                                    <div className="centerTitle">{centerTxt[0]}</div>
+                                    <div className="text">{centerTxt[1]} €</div>
+                                </div>
                             </div>
                         </div>
                     </div>

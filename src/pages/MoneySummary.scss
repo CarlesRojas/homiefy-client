@@ -84,58 +84,76 @@ $red: #ff8563;
             font-weight: 700;
         }
 
-        .pie {
-            position: relative;
-            height: 15rem;
-            width: 15rem;
-            border-radius: 200rem;
+        .pieContainer {
+            width: 100%;
             display: flex;
-            justify-content: center;
+            flex-grow: 1;
             align-items: center;
+            justify-content: center;
 
-            .segment {
-                --degrees: calc((var(--offset, 0) / 100) * 360);
-                height: 100%;
-                width: 100%;
+            .pie {
                 position: absolute;
-                transform: translate(0, -50%) rotate(90deg) rotate(calc(var(--degrees) * 1deg));
-                transform-origin: 50% 100%;
-            }
-
-            .segment::before {
-                content: "";
-                height: 100%;
-                width: 100%;
-                position: absolute;
-                background-color: var(--bg, rgba(255, 0, 0, 1));
-                --degrees: calc((var(--value, 0) / 100) * 360);
-                transform: translate(0, 100%) rotate(calc(var(--degrees) * 1deg));
-                transform-origin: 50% 0;
-            }
-
-            .center {
-                height: 75%;
-                width: 75%;
-                position: absolute;
-                background-color: rgb(42, 42, 42);
-                border-radius: 200px;
+                height: 15rem;
+                width: 15rem;
+                border-radius: 200rem;
                 display: flex;
-                flex-direction: column;
                 justify-content: center;
                 align-items: center;
 
-                .centerTitle {
-                    font-weight: 700;
-                    opacity: 0.4;
-                    font-size: 1.1rem;
-                    color: white;
+                &.big {
+                    height: 18rem;
+                    width: 18rem;
+                    pointer-events: none;
                 }
 
-                .text {
-                    font-weight: 700;
-                    opacity: 0.7;
-                    font-size: 1.6rem;
-                    color: white;
+                .segment {
+                    --degrees: calc((var(--offset, 0) / 100) * 360);
+                    height: 100%;
+                    width: 100%;
+                    position: absolute;
+                    transform: translate(0, -50%) rotate(90deg) rotate(calc(var(--degrees) * 1deg));
+                    transform-origin: 50% 100%;
+
+                    &.hidden {
+                        display: none;
+                    }
+                }
+
+                .segment::before {
+                    content: "";
+                    height: 100%;
+                    width: 100%;
+                    position: absolute;
+                    background-color: var(--bg, rgba(255, 0, 0, 1));
+                    --degrees: calc((var(--value, 0) / 100) * 360);
+                    transform: translate(0, 100%) rotate(calc(var(--degrees) * 1deg));
+                    transform-origin: 50% 0;
+                }
+
+                .center {
+                    height: 75%;
+                    width: 75%;
+                    position: absolute;
+                    background-color: rgb(42, 42, 42);
+                    border-radius: 200px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                    .centerTitle {
+                        font-weight: 700;
+                        opacity: 0.4;
+                        font-size: 1.1rem;
+                        color: white;
+                    }
+
+                    .text {
+                        font-weight: 700;
+                        opacity: 0.7;
+                        font-size: 1.6rem;
+                        color: white;
+                    }
                 }
             }
         }
