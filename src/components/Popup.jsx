@@ -6,16 +6,19 @@ import "./Popup.scss";
 export default function Popup({ children, show, setShow }) {
     // Page position spring
     const [popupPosition, setPopupPosition] = useSpring(() => ({
-        y: -window.innerHeight,
+        y: window.innerHeight,
     }));
 
     const closePopup = () => {
         setShow(false);
-        setPopupPosition({ y: -window.innerHeight });
+        setPopupPosition({ y: window.innerHeight });
     };
 
     useEffect(() => {
         if (show) setPopupPosition({ y: 0 });
+        else setPopupPosition({ y: window.innerHeight });
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [show]);
 
     return (

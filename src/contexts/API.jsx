@@ -55,7 +55,7 @@ const APIProvider = ({ children }) => {
     const getUtilities = async () => {
         try {
             // Fetch
-            var rawResponse = await fetch(`${apiURL}/userData/utilities`, {
+            var rawResponse = await fetch(`${apiURL}/utilities`, {
                 method: "get",
                 headers: {
                     Accept: "application/json, text/plain, */*",
@@ -74,28 +74,32 @@ const APIProvider = ({ children }) => {
     };
 
     const addUtility = async (billType, price, people, period) => {
+        if (typeof billType !== "string" || typeof price !== "number" || typeof people !== "object" || typeof period !== "number") return { error: "Error" };
+
         const today = new Date();
 
         // Post data
         var postData = {
             username: USER,
             name: billType,
-            price,
+            price: -price,
             people,
             period,
             lastPayment: today.toString(),
             picture: billType + ".png",
         };
 
+        console.log(postData);
+
         try {
             // Fetch
-            var rawResponse = await fetch(`${apiURL}/userData/utilities`, {
+            var rawResponse = await fetch(`${apiURL}/utilities/`, {
                 method: "post",
                 headers: {
                     Accept: "application/json, text/plain, */*",
                     "Content-Type": "application/json",
-                    body: JSON.stringify(postData),
                 },
+                body: JSON.stringify(postData),
             });
 
             // Get data from response
@@ -108,8 +112,6 @@ const APIProvider = ({ children }) => {
     };
 
     const deleteUtility = async (billType) => {
-        const today = new Date();
-
         // Post data
         var postData = {
             username: USER,
@@ -118,13 +120,13 @@ const APIProvider = ({ children }) => {
 
         try {
             // Fetch
-            var rawResponse = await fetch(`${apiURL}/userData/utilities`, {
+            var rawResponse = await fetch(`${apiURL}/utilities/`, {
                 method: "delete",
                 headers: {
                     Accept: "application/json, text/plain, */*",
                     "Content-Type": "application/json",
-                    body: JSON.stringify(postData),
                 },
+                body: JSON.stringify(postData),
             });
 
             // Get data from response

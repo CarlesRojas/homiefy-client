@@ -18,6 +18,7 @@ export default function Utility({ name, data }) {
     const today = new Date();
     const lastPaymentDate = new Date(lastPayment);
     const daysLeft = period - Math.abs(today.getDate() - lastPaymentDate.getDate());
+    const percentageCompleted = ((period - daysLeft) / period) * 100;
 
     // Get color
     var color = "";
@@ -47,11 +48,13 @@ export default function Utility({ name, data }) {
     // Progress bar ref
     const progressBarRef = useRef(null);
 
+    // Set wid
+
     useEffect(() => {
         if (progressBarRef.current) {
-            var secondsLeft = daysLeft * 24 * 60 * 60;
-            progressBarRef.current.style.transition = `width ${secondsLeft}s linear`;
-            progressBarRef.current.style.width = "100%";
+            //var secondsLeft = daysLeft * 24 * 60 * 60;
+            //progressBarRef.current.style.transition = `width ${secondsLeft}s linear`;
+            //progressBarRef.current.style.width = "100%";
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,7 +81,7 @@ export default function Utility({ name, data }) {
 
             <div className="progress">
                 <p className="period">{period} days</p>
-                <div className="bar" ref={progressBarRef} style={{ width: `${((period - daysLeft) / period) * 100}%`, background: color }}></div>
+                <div className="bar" ref={progressBarRef} style={{ width: `${percentageCompleted}%`, background: color }}></div>
                 <p className="timeLeft">{daysLeft} days left</p>
             </div>
         </div>
