@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Utilities.scss";
 
 import Tab from "components/Tab";
 import Utility from "components/Utility";
+import Popup from "components/Popup";
 
 // Icons
 import AddIcon from "resources/icons/add.svg";
@@ -15,6 +16,9 @@ export default function Utilities() {
     // Contexts
     const { utilities, setUtilities } = useContext(Data);
     const { getUtilities /*, addUtility*/ } = useContext(API);
+
+    // State
+    const [showAddPopup, setShowAddPopup] = useState(false);
 
     useEffect(() => {
         const loadUtilities = async () => {
@@ -35,8 +39,11 @@ export default function Utilities() {
     return (
         <Tab>
             <div className="utilities">
+                <Popup show={showAddPopup} setShow={setShowAddPopup}>
+                    <div className="contents"></div>
+                </Popup>
                 <div className="container">{content}</div>
-                <div className="add">
+                <div className="add" onClick={() => setShowAddPopup(true)}>
                     <img src={AddIcon} alt="" className="addIcon" />
                 </div>
             </div>

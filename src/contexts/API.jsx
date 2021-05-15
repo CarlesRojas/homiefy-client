@@ -1,18 +1,17 @@
 import React, { createContext } from "react";
 
 // Pictures
-import Electrical from "resources/pictures/Electrical.png";
+import Electricity from "resources/pictures/Electricity.png";
 import Water from "resources/pictures/Water.png";
 import Rent from "resources/pictures/Rent.png";
 
 // API Context
 export const API = createContext();
 
-// API version
-const apiVersion = "api_v1";
-
 const APIProvider = ({ children }) => {
-    const apiURL = process.env.NODE_ENV === "production" ? "https://finalURL.com/" : "http://localhost:3100/";
+    const apiURL = "http://192.168.1.146:8000";
+
+    const USER = "Carles";
 
     // Example API
     const login = async (email, password) => {
@@ -24,7 +23,7 @@ const APIProvider = ({ children }) => {
 
         try {
             // Fetch
-            var rawResponse = await fetch(`${apiURL}${apiVersion}/user/login`, {
+            var rawResponse = await fetch(`${apiURL}/userData/utilities`, {
                 method: "post",
                 headers: {
                     Accept: "application/json, text/plain, */*",
@@ -47,59 +46,121 @@ const APIProvider = ({ children }) => {
         }
     };
 
-    const today = new Date();
+    // const today = new Date();
 
-    const utilitiesHardcodedResponse = {
-        "Electric Bill": {
-            price: -43,
-            picture: Electrical,
-            periodInDays: 30,
-            peoplePaying: ["Carles"],
-            lastPayment: today.getDate() - 10,
-            color: "#edde4d",
-        },
-        "Water Bill": {
-            price: -32,
-            picture: Water,
-            periodInDays: 60,
-            peoplePaying: ["Santi", "Jaume", "Jia"],
-            lastPayment: today.getDate() - 27,
-            color: "#4a9eed",
-        },
-        Rent: {
-            price: -650,
-            picture: Rent,
-            periodInDays: 30,
-            peoplePaying: ["Santi", "Carles"],
-            lastPayment: today.getDate() - 23,
-            color: "#71c24e",
-        },
-    };
+    // const utilitiesHardcodedResponse = {
+    //     Electricity: {
+    //         username: "Carles",
+    //         price: -43,
+    //         picture: Electricity,
+    //         period: 30,
+    //         peoplePaying: ["Carles"],
+    //         lastPayment: today.getDate() - 10,
+    //         // color: "#edde4d",
+    //     },
+    //     Water: {
+    //         username: "Carles",
+    //         price: -32,
+    //         picture: Water,
+    //         period: 60,
+    //         peoplePaying: ["Santi", "Jaume", "Jia"],
+    //         lastPayment: today.getDate() - 27,
+    //         // color: "#4a9eed",
+    //     },
+    //     Rent: {
+    //         username: "Carles",
+    //         price: -650,
+    //         picture: Rent,
+    //         period: 30,
+    //         peoplePaying: ["Santi", "Carles"],
+    //         lastPayment: today.getDate() - 22,
+    //         // color: "#71c24e",
+    //     },
+    // };
 
-    const getUtilities = () => {
+    const getUtilities = async () => {
         try {
             // Fetch
-            // var rawResponse = await fetch(`${apiURL}${apiVersion}/getUtilities`, {
-            //     method: "post",
-            //     headers: {
-            //         Accept: "application/json, text/plain, */*",
-            //         "Content-Type": "application/json",
-            //         "Access-Control-Allow-Origin": "*",
-            //     },
-            // });
+            var rawResponse = await fetch(`${apiURL}/userData/utilities`, {
+                method: "get",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                },
+            });
 
             // Get data from response
-            //const response = await rawResponse.json();
-            // return response;
+            const response = await rawResponse.json();
 
-            // Return response
-            return utilitiesHardcodedResponse;
+            return response;
         } catch (error) {
-            return { error: "Login Error" };
+            console.log(`ERROR ${error}`);
+            return [];
         }
     };
 
-    const addUtility = (name, price, picture, periodInDays, peoplePaying) => {};
+    const addUtility = async (billType, price, people, period) => {
+        const today = new Date();
+
+        // Post data
+        var postData = {
+            username: USER,
+            name: billType,
+            price,
+            people,
+            period,
+            lastPayment: today.toString(),
+            picture: billType + ".png",
+        };
+
+        try {
+            // Fetch
+            var rawResponse = await fetch(`${apiURL}/userData/utilities`, {
+                method: "post",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                    body: JSON.stringify(postData),
+                },
+            });
+
+            // Get data from response
+            const response = await rawResponse.json();
+
+            return response;
+        } catch (error) {
+            return { error: "Error" };
+        }
+    };
+
+    const deleteUtility = async (billType) => {
+        const today = new Date();
+
+        // Post data
+        var postData = {
+            username: USER,
+            name: billType,
+        };
+
+        try {
+            // Fetch
+            var rawResponse = await fetch(`${apiURL}/userData/utilities`, {
+                method: "delete",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                    body: JSON.stringify(postData),
+                },
+            });
+
+            // Get data from response
+            const response = await rawResponse.json();
+
+            return response;
+        } catch (error) {
+            return { error: "Error" };
+        }
+    };
 
     // Return the context
     return (
@@ -109,6 +170,7 @@ const APIProvider = ({ children }) => {
                 login,
                 getUtilities,
                 addUtility,
+                deleteUtility,
             }}
         >
             {children}
