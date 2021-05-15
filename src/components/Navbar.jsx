@@ -9,7 +9,7 @@ import UtilitiesIcon from "resources/icons/Utilities.svg";
 // Contexts
 import { Data } from "contexts/Data";
 
-export default function Navbar(props) {
+export default function Navbar() {
     // Contexts
     const { currPath, setCurrPath } = useContext(Data);
 

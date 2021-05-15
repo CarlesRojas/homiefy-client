@@ -1,5 +1,10 @@
 import React, { createContext } from "react";
 
+// Pictures
+import Electrical from "resources/pictures/Electrical.png";
+import Water from "resources/pictures/Water.png";
+import Rent from "resources/pictures/Rent.png";
+
 // API Context
 export const API = createContext();
 
@@ -42,12 +47,68 @@ const APIProvider = ({ children }) => {
         }
     };
 
+    const today = new Date();
+
+    const utilitiesHardcodedResponse = {
+        "Electric Bill": {
+            price: 43,
+            picture: Electrical,
+            periodInDays: 30,
+            peoplePaying: ["Carles"],
+            lastPayment: today.getDate() - 10,
+            color: "#edde4d",
+        },
+        "Water Bill": {
+            price: 23,
+            picture: Water,
+            periodInDays: 30,
+            peoplePaying: ["Jaume", "Jia"],
+            lastPayment: today.getDate() - 14,
+            color: "#4a9eed",
+        },
+        Rent: {
+            price: 650,
+            picture: Rent,
+            periodInDays: 30,
+            peoplePaying: ["Santi"],
+            lastPayment: today.getDate() - 26,
+            color: "#71c24e",
+        },
+    };
+
+    const getUtilities = () => {
+        try {
+            // Fetch
+            // var rawResponse = await fetch(`${apiURL}${apiVersion}/getUtilities`, {
+            //     method: "post",
+            //     headers: {
+            //         Accept: "application/json, text/plain, */*",
+            //         "Content-Type": "application/json",
+            //         "Access-Control-Allow-Origin": "*",
+            //     },
+            // });
+
+            // Get data from response
+            //const response = await rawResponse.json();
+            // return response;
+
+            // Return response
+            return utilitiesHardcodedResponse;
+        } catch (error) {
+            return { error: "Login Error" };
+        }
+    };
+
+    const addUtility = (name, price, picture, periodInDays, peoplePaying) => {};
+
     // Return the context
     return (
         <API.Provider
             value={{
                 apiURL,
                 login,
+                getUtilities,
+                addUtility,
             }}
         >
             {children}

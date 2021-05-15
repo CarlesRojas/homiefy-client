@@ -1,0 +1,79 @@
+.utility {
+    width: 100%;
+    padding: 0 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    &:first-child {
+        padding-top: 1rem;
+    }
+
+    .content {
+        display: flex;
+        align-items: center;
+        height: 6rem;
+        padding: 1rem;
+        width: 100%;
+        position: relative;
+        background-color: rgb(42, 42, 42);
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.4);
+
+        .image {
+            height: 3.5rem;
+            width: 3.5rem;
+            min-height: 3.5rem;
+            min-width: 3.5rem;
+            max-height: 3.5rem;
+            max-width: 3.5rem;
+            border-radius: 50vw;
+        }
+
+        .description {
+            display: flex;
+            justify-content: center;
+            height: 3.5rem;
+            width: calc(100% - 3.5rem);
+            flex-direction: column;
+            margin-left: 1rem;
+
+            .name {
+                color: white;
+                font-weight: 500;
+                font-size: 1.1rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .price {
+                color: white;
+                opacity: 0.6;
+            }
+
+            .people {
+                .profilePicture {
+                }
+            }
+        }
+    }
+
+    .progress {
+        display: flex;
+        align-items: center;
+        height: 1rem;
+        margin: 0.75rem 0 1rem;
+        width: 100%;
+        position: relative;
+        background-color: rgb(42, 42, 42);
+        border-radius: 100vw;
+        box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.4);
+        padding: 0.1rem;
+
+        .bar {
+            height: 100%;
+            width: 100%;
+            border-radius: 100vw;
+        }
+    }
+}
