@@ -17,8 +17,9 @@ export default function Utility({ name, data }) {
     // Get bar percentage
     const today = new Date();
     const lastPaymentDate = new Date(lastPayment);
-    const daysLeft = period - Math.abs(today.getDate() - lastPaymentDate.getDate());
-    const percentageCompleted = ((period - daysLeft) / period) * 100;
+    const daysCompleted = Math.abs(today.getDate() - lastPaymentDate.getDate());
+    const percentageCompleted = (daysCompleted / period) * 100;
+    const daysLeft = period - daysCompleted;
 
     // Get color
     var color = colors.current[name];

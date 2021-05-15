@@ -9,38 +9,6 @@ const APIProvider = ({ children }) => {
 
     const USER = "Carles";
 
-    // const today = new Date();
-
-    // const utilitiesHardcodedResponse = {
-    //     Electricity: {
-    //         username: "Carles",
-    //         price: -43,
-    //         picture: Electricity,
-    //         period: 30,
-    //         peoplePaying: ["Carles"],
-    //         lastPayment: today.getDate() - 10,
-    //         // color: "#edde4d",
-    //     },
-    //     Water: {
-    //         username: "Carles",
-    //         price: -32,
-    //         picture: Water,
-    //         period: 60,
-    //         peoplePaying: ["Santi", "Jaume", "Jia"],
-    //         lastPayment: today.getDate() - 27,
-    //         // color: "#4a9eed",
-    //     },
-    //     Rent: {
-    //         username: "Carles",
-    //         price: -650,
-    //         picture: Rent,
-    //         period: 30,
-    //         peoplePaying: ["Santi", "Carles"],
-    //         lastPayment: today.getDate() - 22,
-    //         // color: "#71c24e",
-    //     },
-    // };
-
     const apiGetAllPostIt = async () => {
         var createdDate1 = moment(new Date()).add(5, "s").toDate();
         var createdDate2 = moment(new Date()).add(10, "s").toDate();
