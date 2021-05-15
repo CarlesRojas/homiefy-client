@@ -22,7 +22,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: rosybrown;
             width: 100%;
         }
     }
@@ -38,7 +37,7 @@
         margin: 20px 0px;
         padding: 20px;
         border-radius: 20px;
-        box-shadow: 5px 10px #ffffff;
+        box-shadow: 2.5px 5px #ffffff;
 
         .firstRow {
             display: flex;
@@ -74,6 +73,55 @@
             // background-color: purple;
             height: 100%;
             width: 100%;
+
+            .progressBar {
+                position: relative;
+                display: flex;
+                align-items: center;
+                height: 1.3rem;
+                width: 100%;
+                box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+                background-color: rgb(42, 42, 42);
+                margin: 0.5rem 0 1rem;
+                border-radius: 100vw;
+                padding: 0.1rem;
+
+                .bar {
+                    height: 100%;
+                    width: 100%;
+                    border-radius: 100vw;
+                    background-color: green;
+                }
+
+                .timeLeft {
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    top: 0;
+                    left: 0;
+                    color: black;
+                    opacity: 0.7;
+                    padding-left: 0.5rem;
+                    font-size: 0.7rem;
+                    font-weight: 700;
+                    line-height: 1.3rem;
+                }
+
+                .period {
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    top: 0;
+                    left: 0;
+                    color: white;
+                    opacity: 0.15;
+                    padding-right: 0.5rem;
+                    font-size: 0.7rem;
+                    font-weight: 700;
+                    text-align: right;
+                    line-height: 1.3rem;
+                }
+            }
         }
     }
 }

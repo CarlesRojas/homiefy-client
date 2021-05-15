@@ -4,7 +4,6 @@ import moment from 'moment';
 
 // Contexts
 import { API } from "../contexts/API";
-import { Data } from "../contexts/Data";
 import "./PostIt.scss";
 
 // Icons
@@ -12,7 +11,6 @@ import UserIcon from "resources/icons/close.svg";
 
 // Components
 import Tab from "components/Tab";
-import ProgressBar from "components/ProgressBar";
 
 const Header = () => {
     return (
@@ -20,42 +18,43 @@ const Header = () => {
     )
 }
 
-const CardView = ({postIt, deleteAction}) => {
-    const [completed, setCompleted] = useState(0);
-
+const CardView = ({postIt, deleteAction, postItList}) => {
+    var secondsToDissappear = 20
     var createdDate = new Date(postIt.createdDate)
-    var newDateObj = moment(createdDate).add(30, 's').toDate();
-
+    var newDateObj = moment(createdDate).add(secondsToDissappear, 's').toDate();
+    
+    // Total seconds
     var dif = newDateObj.getTime() - createdDate.getTime();
     var dif = dif / 1000;
-    var secBtwCreatedAndEndDate = Math.abs(dif);
-    var chunkSize = 100/secBtwCreatedAndEndDate
-    console.log(`[ID ${postIt.id}] - Total: ${secBtwCreatedAndEndDate}`)
+    var total = Math.abs(dif);
+    // console.log(`[ID ${postIt.id}] - Total: ${total}`)
 
+    // Seconds left
     var currentDate = new Date()
-    var dif2 = currentDate.getTime() - createdDate.getTime();
+    var dif2 = newDateObj.getTime() - currentDate.getTime();
     dif2 = dif2 / 1000;
-    var currentStep = Math.abs(dif2);
-    console.log(`[ID ${postIt.id}] - Current step: ${currentStep}`)
+    var secondsLeft = Math.abs(dif2);
+    // console.log(`[ID ${postIt.id}] - Current step: ${currentStep}`)
+    // console.log(`[ID ${postIt.id}] - ${secondsLeft}`)
 
-    const count = useRef(chunkSize * currentStep)
-    const timer = useRef(null)
+    // Progress bar ref
+    const progressBarRef = useRef(null);
+
     useEffect(() => {
-        timer.current = setInterval(() => {
-            count.current = count.current + chunkSize
-            console.log(`[ID ${postIt.id}] - Iterator (%): ${count.current}`)
-            if (count.current >= 100) {
-                // Delete the post it
-                count.current = 0
-                setCompleted(count.current)
-                clearInterval(timer.current)
-                console.log(`[ID ${postIt.id}] - Completed!`)
-                deleteAction(postIt.id)
-            } else {
-                setCompleted(count.current)
-            }
-        }, 1000);
-    }, []);
+        if (progressBarRef.current) {
+            progressBarRef.current.style.transition = `width ${secondsLeft}s linear`;
+            progressBarRef.current.style.width = "0%";
+        }
+
+        // animate again when any post it is deleted
+    }, [postItList]);
+
+    useEffect(() => {
+        setTimeout(() => {
+            deleteAction(postIt.id)
+        }, secondsLeft * 1000);
+        
+    }, [])
 
     return (
         <div className="cardViewContent">
@@ -73,7 +72,11 @@ const CardView = ({postIt, deleteAction}) => {
                 </div>
             </div>
             <div className="thirdRow">
-                <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
+                <div className="progressBar">
+                    {/* <p className="period">{total} seconds</p> */}
+                    <div className="bar" ref={progressBarRef} style={{ width: `${(secondsLeft / total) * 100}%`}}></div>
+                    {/* <p className="timeLeft">{secondsLeft} seconds left</p> */}
+                </div>
             </div>
         </div>
     )
@@ -85,11 +88,13 @@ const ScrollView = ({postItList, parentDeleteItem}) => {
         <div className="scrollView">
             <div className="content">
                 {postItList.map((item) => {
+                    console.log()
                     return (
                         <CardView
                             key={item.id}
                             postIt={item}
                             deleteAction={parentDeleteItem}
+                            postItList={postItList}
                         ></CardView>
                     );
                 })}
@@ -112,14 +117,13 @@ export default function PostIt() {
 
     useEffect(() => { 
         getAllPostIt()
-        return () => {
-            
-        }
     }, [])
 
     const deleteHandler = (id) => {
-        let newItems = postItList.filter((item) => item.id !== id);
-        setPostItList(newItems);
+        setPostItList((oldState) => {
+            let newItems = oldState.filter((item) => item.id !== id);
+            return newItems
+        });
     };
 
     return (

@@ -49,10 +49,11 @@ const APIProvider = ({ children }) => {
     };
 
     const apiGetAllPostIt = async () => {
-        var createdDate1 = moment(new Date()).add(5, 's').toDate();
-        var createdDate2 = moment(new Date()).add(10, 's').toDate();
-        var createdDate3 = moment(new Date()).add(15, 's').toDate();
-        return [{"id": 0, "username": "Santi", "photo": "santi_photo.jpg", "message": "message 1", "createdDate": createdDate1}, {"id": 1, "username": "Carles", "photo": "carles_photo.jpg", "message": "message 2", "createdDate": createdDate2}, {"id": 2, "username": "Jaume", "photo": "jaume_photo.jpg", "message": "message 3", "createdDate": createdDate3}]
+        var createdDate1 = moment(new Date()).subtract(5, 's').toDate();
+        var createdDate2 = moment(new Date()).subtract(7, 's').toDate();
+        var createdDate3 = moment(new Date()).subtract(10, 's').toDate();
+        var createdDate4 = moment(new Date()).subtract(12, 's').toDate();
+        return [{"id": 0, "username": "Santi", "photo": "santi_photo.jpg", "message": "message 1", "createdDate": createdDate1}, {"id": 1, "username": "Carles", "photo": "carles_photo.jpg", "message": "message 2", "createdDate": createdDate2}, {"id": 2, "username": "Jaume", "photo": "jaume_photo.jpg", "message": "message 3", "createdDate": createdDate3}, {"id": 3, "username": "Jiaxiang", "photo": "jia_photo.jpg", "message": "message 4", "createdDate": createdDate1}, createdDate4]
     };
 
     const today = new Date();
