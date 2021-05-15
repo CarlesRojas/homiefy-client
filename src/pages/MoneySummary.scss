@@ -1,5 +1,7 @@
+$green: #84ff84;
+$red: #ff8563;
+
 .moneySummary {
-    background-color: rgb(50, 50, 50);
     width: 100%;
     height: calc(100% - 3rem);
     display: flex;
@@ -14,112 +16,105 @@
     }
 
     .userBalance {
-        height: 15%;
+        height: fit-content;
         width: calc(100% - 2rem);
         display: flex;
         flex-direction: column;
-        background-color: rgb(78, 75, 75);
-        border-radius: 10px;
-        margin: 1rem;
+        background-color: rgb(42, 42, 42);
         box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        margin: 1rem 1rem 1.5rem;
+        padding: 1rem;
+
         .title {
             flex: 2;
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
+            padding-bottom: 0.5rem;
+
             .text {
-                font-weight: 700;
+                font-weight: 600;
                 opacity: 0.7;
-                font-size: 3rem;
+                font-size: 2rem;
             }
         }
+
         .posNegBalance {
             flex: 1;
             width: 100%;
             display: flex;
             flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
             .positive {
-                flex: 1;
                 font-weight: 700;
                 opacity: 0.7;
                 font-size: 0.9rem;
-                color: rgb(0, 170, 0);
+                color: $green;
                 padding-left: 0.5rem;
             }
+
             .negative {
-                flex: 1;
                 text-align: end;
                 font-weight: 700;
                 opacity: 0.7;
                 font-size: 0.9rem;
-                color: red;
+                color: $red;
                 padding-right: 0.5rem;
             }
         }
     }
-    .balance {
-        position: absolute;
-        height: 100%;
+
+    .balanceContainer {
         width: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
+        height: 100%;
         display: flex;
-        justify-content: center;
         align-items: center;
-        .window {
-            width: 80%;
-            height: 40%;
-            background-color: rgb(78, 75, 75);
-            box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
+        flex-direction: column;
 
+        .title {
+            width: 100%;
+            margin: 1rem 0 2rem;
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .pieContainer {
+            width: 100%;
             display: flex;
-            justify-content: center;
+            flex-grow: 1;
             align-items: center;
+            justify-content: center;
+            padding: 2rem;
 
-            .pie {
-                position: relative;
-                height: 15rem;
-                width: 15rem;
-                border-radius: 200rem;
+            .center {
+                height: 10rem;
+                width: 10rem;
+                position: absolute;
+                background-color: rgb(42, 42, 42);
+                border-radius: 100vw;
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
 
-                .segment {
-                    --degrees: calc((var(--offset, 0) / 100) * 360);
-                    height: 100%;
-                    width: 100%;
-                    position: absolute;
-                    transform: translate(0, -50%) rotate(90deg) rotate(calc(var(--degrees) * 1deg));
-                    transform-origin: 50% 100%;
+                .centerTitle {
+                    font-weight: 700;
+                    opacity: 0.4;
+                    font-size: 1.1rem;
+                    color: white;
                 }
-                .segment::before {
-                    content: "";
-                    height: 100%;
-                    width: 100%;
-                    position: absolute;
-                    background-color: var(--bg, rgba(255, 0, 0, 1));
-                    --degrees: calc((var(--value, 0) / 100) * 360);
-                    transform: translate(0, 100%) rotate(calc(var(--degrees) * 1deg));
-                    transform-origin: 50% 0;
-                }
-                .center {
-                    height: 85%;
-                    width: 85%;
-                    position: absolute;
-                    background-color: rgb(78, 75, 75);
-                    border-radius: 200px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    .text {
-                        font-weight: 700;
-                        opacity: 0.7;
-                        font-size: 2rem;
-                        color: rgb(196, 196, 196);
-                    }
+
+                .text {
+                    font-weight: 700;
+                    opacity: 0.7;
+                    font-size: 1.6rem;
+                    color: white;
                 }
             }
         }

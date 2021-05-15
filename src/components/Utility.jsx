@@ -11,36 +11,33 @@ import { Data } from "contexts/Data";
 
 export default function Utility({ name, data }) {
     // Contexts
-    const { profilePictures } = useContext(Data);
+    const { profilePictures, colors } = useContext(Data);
     const { price, period, people, lastPayment } = data;
 
     // Get bar percentage
     const today = new Date();
     const lastPaymentDate = new Date(lastPayment);
-    const daysLeft = period - Math.abs(today.getDate() - lastPaymentDate.getDate());
-    const percentageCompleted = ((period - daysLeft) / period) * 100;
+    const daysCompleted = Math.abs(today.getDate() - lastPaymentDate.getDate());
+    const percentageCompleted = (daysCompleted / period) * 100;
+    const daysLeft = period - daysCompleted;
 
     // Get color
-    var color = "";
+    var color = colors.current[name];
     var picture = null;
     switch (name) {
         case "Electricity":
-            color = "#edde4d";
             picture = Electricity;
             break;
 
         case "Water":
-            color = "#4a9eed";
             picture = Water;
             break;
 
         case "Rent":
-            color = "#71c24e";
             picture = Rent;
             break;
 
         default:
-            color = "#4a9eed";
             picture = Water;
             break;
     }

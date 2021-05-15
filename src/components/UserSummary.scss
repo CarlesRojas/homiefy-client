@@ -1,3 +1,6 @@
+$green: #84ff84;
+$red: #ff8563;
+
 .userSummary {
     display: flex;
     flex: 1;
@@ -12,19 +15,16 @@
         display: flex;
         height: 100%;
         position: relative;
-        
 
         &.left {
-            
             justify-content: flex-end;
             align-items: center;
 
             .line {
-                background: red;
+                background: $red;
                 height: 1.25rem;
                 border-radius: 200px 0 0 200px;
                 box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
-
             }
             .iconDiv {
                 display: flex;
@@ -40,19 +40,23 @@
                 align-self: center;
                 width: 2rem;
                 height: 2rem;
+                min-width: 2rem;
+                min-height: 2rem;
+                max-width: 2rem;
+                max-height: 2rem;
                 margin-right: 0.25rem;
-                border-radius: 100px;
+                border-radius: 100vw;
                 box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
-                background-color: rgb(138, 138, 138);
             }
             .value {
                 padding-right: 0.5rem;
-                color: rgb(0, 170, 0);
+                color: $green;
                 font-weight: 700;
                 opacity: 0.7;
                 font-size: 0.7rem;
             }
         }
+
         &.right {
             justify-content: flex-start;
             align-items: center;
@@ -61,13 +65,12 @@
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
-                background: rgb(0, 170, 0);
+                background: $green;
                 height: 1.25rem;
-                border-radius: 0 200px 200px 0;                
+                border-radius: 0 200px 200px 0;
                 box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
-                //transform: translateX(-10%)
-
             }
+
             .iconDiv {
                 display: flex;
                 flex-direction: column;
@@ -76,31 +79,37 @@
                 height: 100%;
                 width: 25%;
             }
+
             .icon {
                 display: flex;
                 justify-content: center;
                 align-self: center;
                 width: 2rem;
                 height: 2rem;
+                min-width: 2rem;
+                min-height: 2rem;
+                max-width: 2rem;
+                max-height: 2rem;
                 margin-left: 0.25rem;
-                border-radius: 100px;
+                border-radius: 100vw;
                 box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
-                background-color: rgb(138, 138, 138);
             }
+
             .value {
                 padding-left: 0.5rem;
-                color: red;
+                color: $red;
                 font-weight: 700;
                 opacity: 0.7;
                 font-size: 0.7rem;
             }
         }
     }
-    
+
     .separator {
         position: absolute;
         width: 2px;
         height: 100%;
         background-color: rgb(80, 80, 80);
+        box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
     }
-} 
+}

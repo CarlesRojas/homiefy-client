@@ -1,27 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { PieChart } from "react-minimal-pie-chart";
 import "./MoneySummary.scss";
 
 import Tab from "components/Tab";
-import { useContext } from "react";
 import { API } from "contexts/API";
+import { Data } from "contexts/Data";
 import UserSummary from "components/UserSummary";
-import { useEffect } from "react";
+
+import Popup from "components/Popup";
 
 export default function MoneySummary() {
     const { getMoneySummary, USER } = useContext(API);
+    const { colors } = useContext(Data);
 
-    const [showBalanceWindow, setShowBalanceView] = useState(false);
-    const [balanceView, setBalanceView] = useState(null);
     const [centerTxt, setCenterText] = useState(["Total", 0]);
 
     const [userSummary, setUserSummary] = useState({});
-
-    const colors = {
-        water: "rgb(57,70,250)",
-        electricity: "rgb(66,255,255)",
-        rent: "rgb(250, 157, 36)",
-        debt: "rgb(241,32,32)",
-    };
+    const lastSelected = useRef(-1);
 
     const totalPerUser = {};
     Object.keys(userSummary).forEach((key) => {
@@ -35,86 +30,29 @@ export default function MoneySummary() {
     var positive = 0;
     var negative = 0;
 
-    const closeWindow = () => {
-        setBalanceView(null);
-        setShowBalanceView(false);
-    };
+    const [pieData, setPieData] = useState([]);
 
-    const showData = (username, key) => {
-        console.log(key);
-        setCenterText([key, userSummary[username][key]]);
-    };
-
-    const showTotal = (username) => {
-        setCenterText(["Total", totalPerUser[username]]);
-    };
+    // State
+    const [showAddPopup, setShowAddPopup] = useState(false);
 
     const viewBalance = (username) => {
-        var offset = 0;
-        var pie = [];
+        const currentSummary = userSummary[username];
 
-        showTotal(username);
-        const absTotal = Object.values(userSummary[username]).reduce((accumulator, current) => Math.abs(accumulator) + Math.abs(current));
-        Object.keys(userSummary[username]).forEach((key) => {
-            var pct = (Math.abs(userSummary[username][key]) / absTotal) * 100;
-            pie.push(
-                pct <= 50 ? (
-                    <div
-                        className="segment"
-                        style={{
-                            "--offset": offset,
-                            "--value": pct,
-                            "--bg": colors[key],
-                        }}
-                        key={`${username}_${key}`}
-                        onMouseEnter={() => showData(username, key)}
-                        onMouseLeave={() => showTotal(username)}
-                    />
-                ) : (
-                    <React.Fragment key={`${username}_${key}`}>
-                        <div
-                            className="segment"
-                            style={{
-                                "--offset": offset,
-                                "--value": 50,
-                                "--bg": colors[key],
-                            }}
-                            onMouseEnter={() => showData(username, key)}
-                            onMouseLeave={() => showTotal(username)}
-                        />
-                        <div
-                            className="segment"
-                            style={{
-                                "--offset": offset + pct - 50,
-                                "--value": 50,
-                                "--bg": colors[key],
-                            }}
-                            onMouseEnter={() => showData(username, key)}
-                            onMouseLeave={() => showTotal(username)}
-                        />
-                    </React.Fragment>
-                )
-            );
-            offset += pct;
-        });
+        var tempArray = [];
+        for (const [name, value] of Object.entries(currentSummary)) {
+            tempArray.push({
+                title: name,
+                value: Math.abs(value),
+                color: colors.current[name],
+                trueValue: value,
+                username: username,
+            });
+        }
 
-        setBalanceView(pie);
-        setShowBalanceView(true);
+        setCenterText(["Total", totalPerUser[username]]);
+        setPieData(tempArray);
+        setShowAddPopup(true);
     };
-
-    const balanceWindow = showBalanceWindow ? (
-        <div className="balance" onClick={() => closeWindow()}>
-            <div className="window">
-                <div className="pie">
-                    {balanceView}
-                    <div className="center">
-                        <div className="text">{centerTxt[0]}</div>
-                        <div className="text">{centerTxt[1]} €</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    ) : null;
 
     var i = 0;
     for (const [username, ammount] of Object.entries(totalPerUser)) {
@@ -128,7 +66,6 @@ export default function MoneySummary() {
     const callAPI = async () => {
         const response = await getMoneySummary(USER);
 
-        console.log(response);
         setUserSummary(response);
     };
 
@@ -138,22 +75,70 @@ export default function MoneySummary() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    console.log(pieData);
+
+    const onSegment = (event, segmentIndex) => {
+        var data = pieData[segmentIndex];
+        if (segmentIndex === lastSelected.current) {
+            lastSelected.current = -1;
+            setCenterText(["Total", totalPerUser[data["username"]]]);
+        } else if (segmentIndex !== -1) {
+            lastSelected.current = segmentIndex;
+            setCenterText([data["title"], data["trueValue"]]);
+        } else {
+            lastSelected.current = segmentIndex;
+            setCenterText([data["title"], data["trueValue"]]);
+        }
+    };
+
+    const getSegmentStyle = (segmentIndex) => {
+        if (segmentIndex === lastSelected.current) {
+            return { strokeWidth: "3.3rem", transition: "stroke-width 0.2s ease-in-out" };
+        } else {
+            return { strokeWidth: "2.75rem", transition: "stroke-width 0.2s ease-in-out" };
+        }
+    };
+
+    useEffect(() => {
+        lastSelected.current = -1;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showAddPopup]);
+
     return (
         <Tab>
             <div className="moneySummary">
                 <div className="userBalance">
                     <div className="title">
-                        <div className="text" style={{ color: userBalance >= 0 ? "rgb(0, 170, 0)" : "red" }}>
-                            {userBalance} €
+                        <div className="text" style={{ color: userBalance >= 0 ? "#84ff84" : "#ff8563" }}>
+                            {userBalance.toFixed(2)} €
                         </div>
                     </div>
                     <div className="posNegBalance">
-                        <div className="negative">{negative} €</div>
-                        <div className="positive">{positive} €</div>
+                        <div className="negative">{negative.toFixed(2)} €</div>
+                        <div className="positive">{positive.toFixed(2)} €</div>
                     </div>
                 </div>
                 <div className="scrollView">{usersBalance}</div>
-                {balanceWindow}
+
+                <Popup show={showAddPopup} setShow={setShowAddPopup}>
+                    <div className="balanceContainer">
+                        <p className="title">Balance</p>
+
+                        <div className="pieContainer">
+                            <PieChart
+                                data={pieData}
+                                onClick={(event, segmentIndex) => onSegment(event, segmentIndex)}
+                                startAngle={-90}
+                                segmentsStyle={getSegmentStyle}
+                                style={{ overflow: "visible" }}
+                            />
+                            <div className="center">
+                                <div className="centerTitle">{centerTxt[0]}</div>
+                                <div className="text">{centerTxt[1]} €</div>
+                            </div>
+                        </div>
+                    </div>
+                </Popup>
             </div>
         </Tab>
     );
