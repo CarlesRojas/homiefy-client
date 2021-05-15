@@ -51,7 +51,7 @@ const APIProvider = ({ children }) => {
 
     const utilitiesHardcodedResponse = {
         "Electric Bill": {
-            price: 43,
+            price: -43,
             picture: Electrical,
             periodInDays: 30,
             peoplePaying: ["Carles"],
@@ -59,19 +59,19 @@ const APIProvider = ({ children }) => {
             color: "#edde4d",
         },
         "Water Bill": {
-            price: 23,
+            price: -32,
             picture: Water,
-            periodInDays: 30,
-            peoplePaying: ["Jaume", "Jia"],
-            lastPayment: today.getDate() - 14,
+            periodInDays: 60,
+            peoplePaying: ["Santi", "Jaume", "Jia"],
+            lastPayment: today.getDate() - 27,
             color: "#4a9eed",
         },
         Rent: {
-            price: 650,
+            price: -650,
             picture: Rent,
             periodInDays: 30,
-            peoplePaying: ["Santi"],
-            lastPayment: today.getDate() - 26,
+            peoplePaying: ["Santi", "Carles"],
+            lastPayment: today.getDate() - 23,
             color: "#71c24e",
         },
     };

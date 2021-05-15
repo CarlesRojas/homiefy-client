@@ -4,6 +4,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgb(53, 53, 53);
+    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
 
     .icon {
         transition: opacity 0.2s ease-in-out;
@@ -15,6 +17,7 @@
         min-width: 3rem;
         padding: 0.6rem;
         opacity: 0.4;
+        color: white;
 
         &.selected {
             opacity: 1;

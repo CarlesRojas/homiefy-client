@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useEffect } from "react";
 import "./Utility.scss";
 
 //import Border from "components/Border";
@@ -13,8 +13,21 @@ export default function Utility({ name, data }) {
 
     // Get bar percentage
     const today = new Date();
-    const progressMade = Math.abs(today.getDate() - lastPayment);
+    const daysLeft = Math.abs(today.getDate() - lastPayment);
     const total = Math.abs(today.getDate() - today.getDate() - periodInDays);
+
+    // Progress bar ref
+    const progressBarRef = useRef(null);
+
+    useEffect(() => {
+        if (progressBarRef.current) {
+            var secondsLeft = daysLeft * 24 * 60 * 60;
+            progressBarRef.current.style.transition = `width ${secondsLeft}s linear`;
+            progressBarRef.current.style.width = "0%";
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="utility">
@@ -22,18 +35,23 @@ export default function Utility({ name, data }) {
                 <img src={picture} alt="" className="image" />
 
                 <div className="description">
-                    <p className="name">{name}</p>
-                    <p className="price">{price} €</p>
+                    <div className="titleContainer">
+                        <p className="name">{name}</p>
+                        <p className="price">{price} €</p>
+                    </div>
+
                     <div className="people">
                         {peoplePaying.map((name, i) => (
-                            <img key={i} src={profilePictures[name]} alt="" className="profilePicture" />
+                            <img key={i} src={profilePictures.current[name]} alt="" className="profilePicture" />
                         ))}
                     </div>
                 </div>
             </div>
 
             <div className="progress">
-                <div className="bar" style={{ width: `${(progressMade / total) * 100}%`, background: color }}></div>
+                <p className="period">{total} days</p>
+                <div className="bar" ref={progressBarRef} style={{ width: `${(daysLeft / total) * 100}%`, background: color }}></div>
+                <p className="timeLeft">{daysLeft} days left</p>
             </div>
         </div>
     );

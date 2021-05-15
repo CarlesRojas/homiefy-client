@@ -12,4 +12,31 @@
         flex-direction: column;
         align-items: center;
     }
+
+    .add {
+        position: fixed;
+        bottom: 3.5rem;
+        right: 0.5rem;
+        height: 3rem;
+        max-height: 3rem;
+        min-height: 3rem;
+        width: 3rem;
+        max-width: 3rem;
+        min-width: 3rem;
+        border-radius: 50vw;
+        background-color: rgb(53, 53, 53);
+        box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+
+        .addIcon {
+            height: 3rem;
+            max-height: 3rem;
+            min-height: 3rem;
+            width: 3rem;
+            max-width: 3rem;
+            min-width: 3rem;
+            padding: 0.75rem;
+            filter: invert(1);
+            opacity: 0.5;
+        }
+    }
 }

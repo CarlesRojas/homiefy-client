@@ -4,6 +4,9 @@ import "./Utilities.scss";
 import Tab from "components/Tab";
 import Utility from "components/Utility";
 
+// Icons
+import AddIcon from "resources/icons/add.svg";
+
 // Contexts
 import { Data } from "contexts/Data";
 import { API } from "contexts/API";
@@ -33,6 +36,9 @@ export default function Utilities() {
         <Tab>
             <div className="utilities">
                 <div className="container">{content}</div>
+                <div className="add">
+                    <img src={AddIcon} alt="" className="addIcon" />
+                </div>
             </div>
         </Tab>
     );
