@@ -138,6 +138,36 @@ const APIProvider = ({ children }) => {
         }
     };
 
+    const getMoneySummary = async (username) => {
+        // post data
+        var postData = {
+            username,
+        };
+
+        try {
+            // Fetch
+            var rawResponse = await fetch(`${apiURL}/balance`, {
+                method: "post",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+                body: JSON.stringify(postData),
+            });
+
+            // Get data from response
+            const response = await rawResponse.json();
+
+            if ("error" in response) return response;
+
+            return response;
+        } catch (error) {
+            console.log(error);
+            return { error: error };
+        }
+    };
+
     // Return the context
     return (
         <API.Provider
@@ -147,6 +177,7 @@ const APIProvider = ({ children }) => {
                 getUtilities,
                 addUtility,
                 deleteUtility,
+                getMoneySummary,
             }}
         >
             {children}
