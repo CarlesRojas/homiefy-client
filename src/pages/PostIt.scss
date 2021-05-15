@@ -1,7 +1,8 @@
 .postIt {
     background-color: rgb(255, 202, 253);
     width: 100%;
-    height: 90%;
+    height: calc(100% - 3rem);
+    position: relative;
 
     .header {
         font-size: 15px;

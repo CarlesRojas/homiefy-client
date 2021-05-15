@@ -31,26 +31,26 @@ const CardView = ({ postIt, deleteAction }) => {
     dif = dif / 1000;
     var secBtwCreatedAndEndDate = Math.abs(dif);
     var chunkSize = 100 / secBtwCreatedAndEndDate;
-    console.log(`[ID ${postIt.id}] - Total: ${secBtwCreatedAndEndDate}`);
+    //console.log(`[ID ${postIt.id}] - Total: ${secBtwCreatedAndEndDate}`);
 
     var currentDate = new Date();
     var dif2 = currentDate.getTime() - createdDate.getTime();
     dif2 = dif2 / 1000;
     var currentStep = Math.abs(dif2);
-    console.log(`[ID ${postIt.id}] - Current step: ${currentStep}`);
+    //console.log(`[ID ${postIt.id}] - Current step: ${currentStep}`);
 
     const count = useRef(chunkSize * currentStep);
     const timer = useRef(null);
     useEffect(() => {
         timer.current = setInterval(() => {
             count.current = count.current + chunkSize;
-            console.log(`[ID ${postIt.id}] - Iterator (%): ${count.current}`);
+            //console.log(`[ID ${postIt.id}] - Iterator (%): ${count.current}`);
             if (count.current >= 100) {
                 // Delete the post it
                 count.current = 0;
                 setCompleted(count.current);
                 clearInterval(timer.current);
-                console.log(`[ID ${postIt.id}] - Completed!`);
+                //console.log(`[ID ${postIt.id}] - Completed!`);
                 deleteAction(postIt.id);
             } else {
                 setCompleted(count.current);
