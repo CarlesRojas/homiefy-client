@@ -2,4 +2,10 @@
     background-color: rgb(255, 202, 202);
     width: 100%;
     height: 90%;
+
+    .scrollView {
+        overflow-y: auto;
+        height: 100%;
+    }
+
 }
