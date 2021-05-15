@@ -3,7 +3,6 @@ import "./UserSummary.scss";
 
 import { Data } from "contexts/Data";
 
-import JaumeImage from "resources/pictures/JaumeImage.png";
 export default function UserSummary(props) {
     const { profilePictures } = useContext(Data);
 
@@ -17,11 +16,10 @@ export default function UserSummary(props) {
                 <div className="line" style={{ width: width + "%" }} />
                 <div className="iconDiv">
                     <img src={profilePictures.current[username]} alt="" className="icon" onClick={() => callback(username)} />
-                    {/* <div className="icon" onClick={() => callback(username)} /> */}
                 </div>
             </React.Fragment>
         ) : (
-            <div className="value">{ammount} €</div>
+            <div className="value">{ammount.toFixed(2)} €</div>
         );
 
     const left =
@@ -29,12 +27,11 @@ export default function UserSummary(props) {
             <React.Fragment>
                 <div className="iconDiv">
                     <img src={profilePictures.current[username]} alt="" className="icon" onClick={() => callback(username)} />
-                    {/* <div className="icon" onClick={() => callback(username)}></div> */}
                 </div>
                 <div className="line" style={{ width: width + "%" }} />
             </React.Fragment>
         ) : (
-            <div className="value">{ammount} €</div>
+            <div className="value">{ammount.toFixed(2)} €</div>
         );
 
     return (

@@ -68,7 +68,6 @@ const APIProvider = ({ children }) => {
 
             return response;
         } catch (error) {
-            console.log(`ERROR ${error}`);
             return [];
         }
     };
@@ -88,8 +87,6 @@ const APIProvider = ({ children }) => {
             lastPayment: today.toString(),
             picture: billType + ".png",
         };
-
-        console.log(postData);
 
         try {
             // Fetch
@@ -162,7 +159,6 @@ const APIProvider = ({ children }) => {
 
             return response;
         } catch (error) {
-            console.log(error);
             return { error: error };
         }
     };
