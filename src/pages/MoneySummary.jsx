@@ -18,7 +18,9 @@ export default function MoneySummary() {
     const [centerTxt, setCenterText] = useState(["Total", 0])
     
 
-    //const userSummary = getMoneySummary("Santi");
+    const userSummary = getMoneySummary("Santi");
+    console.log(userSummary)
+    /*
     const userSummary = {
         "Jaume": {
             "water": 100,
@@ -51,7 +53,7 @@ export default function MoneySummary() {
             "electricity": 100,
             "rent": 0,
         },
-    };
+    };*/
 
     const colors = {
         "water": "rgb(57,70,250)",
@@ -93,13 +95,30 @@ export default function MoneySummary() {
         Object.keys(userSummary[username]).forEach((key) => {
             var pct = (Math.abs(userSummary[username][key]) / absTotal) * 100 ;
             pie.push(
-                <div className="segment" style={{
-                    "--offset": offset, 
-                    "--value": pct, 
-                    "--over50": pct > 50 ? 1 : 0, 
-                    "--bg": colors[key]
-                }} onMouseEnter={() => showData(username, key) }
-                onMouseLeave={() => showTotal(username)}/>)
+                pct <= 50 
+                ?
+                    <div className="segment" style={{
+                        "--offset": offset, 
+                        "--value": pct, 
+                        "--bg": colors[key]
+                    }} onMouseEnter={() => showData(username, key) }
+                    onMouseLeave={() => showTotal(username)}/>
+                :
+                    <React.Fragment>
+                        <div className="segment" style={{
+                            "--offset": offset, 
+                            "--value": 50, 
+                            "--bg": colors[key]
+                        }} onMouseEnter={() => showData(username, key) }
+                        onMouseLeave={() => showTotal(username)}/>
+                        <div className="segment" style={{
+                            "--offset": offset+pct-50, 
+                            "--value": 50, 
+                            "--bg": colors[key]
+                        }} onMouseEnter={() => showData(username, key) }
+                        onMouseLeave={() => showTotal(username)}/>
+                    </React.Fragment>
+            )
             offset += pct;
         })
 

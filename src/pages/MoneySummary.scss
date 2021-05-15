@@ -87,35 +87,22 @@
                 align-items: center;
                 
                 .segment {
-                    --a: calc(var(--over50, 0) * -100%);
-                    --b: calc((1 + var(--over50, 0)) * 100%);
                     --degrees: calc((var(--offset, 0) / 100) * 360);
                     height: 100%;
                     width: 100%;
                     position: absolute;
                     transform: translate(0, -50%) rotate(90deg) rotate(calc(var(--degrees) * 1deg));
                     transform-origin: 50% 100%;
-                    overflow: visible;
-
-                    clip-path: polygon(var(--a) var(--a), var(--b) var(--a), var(--b) var(--b), var(--a) var(--b));
-                    -webkit-clip-path: polygon(var(--a) var(--a), var(--b) var(--a), var(--b) var(--b), var(--a) var(--b));
                 }
-                .segment::after,
                 .segment::before {
                     content: '';
                     height: 100%;
                     width: 100%;
                     position: absolute;
                     background-color: var(--bg, rgba(255,0,0,1));
-                }
-                .segment::before {
                     --degrees: calc((var(--value, 0) / 100) * 360);
                     transform: translate(0, 100%) rotate(calc(var(--degrees) * 1deg));
                     transform-origin: 50% 0;
-                }
-                .segment::after {
-                    opacity: var(--over50, 0);
-                    
                 }
                 .center {
                     height: 85%;
