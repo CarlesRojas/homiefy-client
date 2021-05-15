@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect, useContext, useRef } from "react";
-import moment from 'moment';
+import moment from "moment";
 
 // Contexts
 import { API } from "../contexts/API";
@@ -14,9 +14,11 @@ import Tab from "components/Tab";
 
 const Header = () => {
     return (
-        <div className="header"><h1>Post It</h1></div>
-    )
-}
+        <div className="header">
+            <h1>Post It</h1>
+        </div>
+    );
+};
 
 const CardView = ({postIt, deleteAction, postItList}) => {
     var secondsToDissappear = 20
@@ -60,7 +62,7 @@ const CardView = ({postIt, deleteAction, postItList}) => {
         <div className="cardViewContent">
             <div className="firstRow">
                 <div className="userPhotoContainer">
-                    <img src={UserIcon} className="userPhoto"></img>
+                    <img src={UserIcon} alt="" className="userPhoto"></img>
                 </div>
                 <div className="username">
                     <p>{postIt.username}</p>
@@ -79,11 +81,10 @@ const CardView = ({postIt, deleteAction, postItList}) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-const ScrollView = ({postItList, parentDeleteItem}) => {
-
+const ScrollView = ({ postItList, parentDeleteItem }) => {
     return (
         <div className="scrollView">
             <div className="content">
@@ -101,14 +102,13 @@ const ScrollView = ({postItList, parentDeleteItem}) => {
             </div>
         </div>
     );
-}
+};
 
 export default function PostIt() {
-
     // context
-    const {apiGetAllPostIt} = useContext(API)
+    const { apiGetAllPostIt } = useContext(API);
 
-    const [postItList, setPostItList] = useState([])
+    const [postItList, setPostItList] = useState([]);
 
     const getAllPostIt = async () => {
         var data = await apiGetAllPostIt();

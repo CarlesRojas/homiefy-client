@@ -1,0 +1,64 @@
+.popup {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    pointer-events: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    &.show {
+        pointer-events: all;
+    }
+
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: opacity 0.2s ease-in-out;
+        border: solid 1px rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(7px);
+        transform: scale(1.2);
+        opacity: 0;
+        pointer-events: none;
+
+        &.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+
+    .container {
+        width: 100%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+        background-color: rgb(42, 42, 42);
+        border-radius: 20px 20px 0 0;
+        padding: 1rem;
+
+        .content {
+            width: 100%;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .backButton {
+            height: fit-content;
+            min-height: fit-content;
+            max-height: fit-content;
+            color: white;
+            padding: 1rem 2rem 0;
+            font-weight: 700;
+            opacity: 0.4;
+        }
+    }
+}
