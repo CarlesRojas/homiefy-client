@@ -1,18 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./UserSummary.scss";
 
-export default function UserSummary(props) {
-    const username = props.username;
-    const ammount = props.ammount;
+import { Data } from "contexts/Data";
 
-    const width = Math.max((Math.abs(ammount) * 75) / props.maxAmmount, 10);
+import JaumeImage from "resources/pictures/JaumeImage.png";
+export default function UserSummary(props) {
+    const { profilePictures } = useContext(Data);
+
+    const { username, ammount, maxAmmount, callback } = props;
+
+    const width = Math.max((Math.abs(ammount) * 75) / maxAmmount, 10);
 
     const right =
         ammount >= 0 ? (
             <React.Fragment>
                 <div className="line" style={{ width: width + "%" }} />
                 <div className="iconDiv">
-                    <div className="icon" onClick={() => props.callback(username)} />
+                    <img src={profilePictures.current[username]} alt="" className="icon" onClick={() => callback(username)} />
+                    {/* <div className="icon" onClick={() => callback(username)} /> */}
                 </div>
             </React.Fragment>
         ) : (
@@ -23,7 +28,8 @@ export default function UserSummary(props) {
         ammount < 0 ? (
             <React.Fragment>
                 <div className="iconDiv">
-                    <div className="icon" onClick={() => props.callback(username)}></div>
+                    <img src={profilePictures.current[username]} alt="" className="icon" onClick={() => callback(username)} />
+                    {/* <div className="icon" onClick={() => callback(username)}></div> */}
                 </div>
                 <div className="line" style={{ width: width + "%" }} />
             </React.Fragment>

@@ -24,6 +24,16 @@ const DataProvider = ({ children }) => {
         Jia: JiaImage,
     });
 
+    const colors = useRef({
+        Water: "#4a9eed",
+        Electricity: "#edde4d",
+        Rent: "#71c24e",
+        Debt: "#fb6523",
+        Restaurant: "#f261ff",
+        Food: "#b8ff3c",
+        Movies: "#61f3ff",
+    });
+
     // #################################################
     //   PROVIDE DATA
     // #################################################
@@ -36,6 +46,7 @@ const DataProvider = ({ children }) => {
                 profilePictures,
                 utilities,
                 setUtilities,
+                colors,
             }}
         >
             {children}

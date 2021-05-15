@@ -4,24 +4,20 @@ import "./MoneySummary.scss";
 import Tab from "components/Tab";
 import { useContext } from "react";
 import { API } from "contexts/API";
+import { Data } from "contexts/Data";
 import UserSummary from "components/UserSummary";
 import { useEffect } from "react";
 
+import Popup from "components/Popup";
+
 export default function MoneySummary() {
     const { getMoneySummary, USER } = useContext(API);
+    const { colors } = useContext(Data);
 
-    const [showBalanceWindow, setShowBalanceView] = useState(false);
     const [balanceView, setBalanceView] = useState(null);
     const [centerTxt, setCenterText] = useState(["Total", 0]);
 
     const [userSummary, setUserSummary] = useState({});
-
-    const colors = {
-        water: "rgb(57,70,250)",
-        electricity: "rgb(66,255,255)",
-        rent: "rgb(250, 157, 36)",
-        debt: "rgb(241,32,32)",
-    };
 
     const totalPerUser = {};
     Object.keys(userSummary).forEach((key) => {
@@ -34,11 +30,6 @@ export default function MoneySummary() {
     var userBalance = 0;
     var positive = 0;
     var negative = 0;
-
-    const closeWindow = () => {
-        setBalanceView(null);
-        setShowBalanceView(false);
-    };
 
     const showData = (username, key) => {
         console.log(key);
@@ -56,6 +47,8 @@ export default function MoneySummary() {
         showTotal(username);
         const absTotal = Object.values(userSummary[username]).reduce((accumulator, current) => Math.abs(accumulator) + Math.abs(current));
         Object.keys(userSummary[username]).forEach((key) => {
+            console.log(key);
+            console.log(colors);
             var pct = (Math.abs(userSummary[username][key]) / absTotal) * 100;
             pie.push(
                 pct <= 50 ? (
@@ -64,7 +57,7 @@ export default function MoneySummary() {
                         style={{
                             "--offset": offset,
                             "--value": pct,
-                            "--bg": colors[key],
+                            "--bg": colors.current[key],
                         }}
                         key={`${username}_${key}`}
                         onMouseEnter={() => showData(username, key)}
@@ -77,7 +70,7 @@ export default function MoneySummary() {
                             style={{
                                 "--offset": offset,
                                 "--value": 50,
-                                "--bg": colors[key],
+                                "--bg": colors.current[key],
                             }}
                             onMouseEnter={() => showData(username, key)}
                             onMouseLeave={() => showTotal(username)}
@@ -87,7 +80,7 @@ export default function MoneySummary() {
                             style={{
                                 "--offset": offset + pct - 50,
                                 "--value": 50,
-                                "--bg": colors[key],
+                                "--bg": colors.current[key],
                             }}
                             onMouseEnter={() => showData(username, key)}
                             onMouseLeave={() => showTotal(username)}
@@ -99,22 +92,11 @@ export default function MoneySummary() {
         });
 
         setBalanceView(pie);
-        setShowBalanceView(true);
+        setShowAddPopup(true);
     };
 
-    const balanceWindow = showBalanceWindow ? (
-        <div className="balance" onClick={() => closeWindow()}>
-            <div className="window">
-                <div className="pie">
-                    {balanceView}
-                    <div className="center">
-                        <div className="text">{centerTxt[0]}</div>
-                        <div className="text">{centerTxt[1]} €</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    ) : null;
+    // State
+    const [showAddPopup, setShowAddPopup] = useState(false);
 
     var i = 0;
     for (const [username, ammount] of Object.entries(totalPerUser)) {
@@ -143,7 +125,7 @@ export default function MoneySummary() {
             <div className="moneySummary">
                 <div className="userBalance">
                     <div className="title">
-                        <div className="text" style={{ color: userBalance >= 0 ? "rgb(0, 170, 0)" : "red" }}>
+                        <div className="text" style={{ color: userBalance >= 0 ? "#84ff84" : "#ff8563" }}>
                             {userBalance} €
                         </div>
                     </div>
@@ -153,7 +135,20 @@ export default function MoneySummary() {
                     </div>
                 </div>
                 <div className="scrollView">{usersBalance}</div>
-                {balanceWindow}
+
+                <Popup show={showAddPopup} setShow={setShowAddPopup}>
+                    <div className="balanceContainer">
+                        <p className="title">Balance</p>
+
+                        <div className="pie">
+                            {balanceView}
+                            <div className="center">
+                                <div className="centerTitle">{centerTxt[0]}</div>
+                                <div className="text">{centerTxt[1]} €</div>
+                            </div>
+                        </div>
+                    </div>
+                </Popup>
             </div>
         </Tab>
     );
