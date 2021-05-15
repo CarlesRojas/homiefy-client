@@ -4,13 +4,22 @@ import moment from "moment";
 
 // Contexts
 import { API } from "../contexts/API";
+import {Data} from "../contexts/Data";
 import "./PostIt.scss";
+
+// Pictures
+import Electricity from "resources/pictures/Electricity.png";
+import Water from "resources/pictures/Water.png";
+import Rent from "resources/pictures/Rent.png";
+
 
 // Icons
 import UserIcon from "resources/icons/close.svg";
+import AddIcon from "resources/icons/add.svg";
 
 // Components
 import Tab from "components/Tab";
+import Popup from "components/Popup";
 
 const Header = () => {
     return (
@@ -21,7 +30,7 @@ const Header = () => {
 };
 
 const CardView = ({postIt, deleteAction, postItList}) => {
-    var secondsToDissappear = 20
+    var secondsToDissappear = 60
     var createdDate = new Date(postIt.createdDate)
     var newDateObj = moment(createdDate).add(secondsToDissappear, 's').toDate();
     
@@ -107,8 +116,19 @@ const ScrollView = ({ postItList, parentDeleteItem }) => {
 export default function PostIt() {
     // context
     const { apiGetAllPostIt } = useContext(API);
-
+    const { utilities, setUtilities, profilePictures } = useContext(Data);
+    
+    // State
+    const [showAddPopup, setShowAddPopup] = useState(false);
     const [postItList, setPostItList] = useState([]);
+    // Form states
+    const [postItForm, setPostItForm] = useState({ username: "", avatar: "", message: "", priorityType: "", period: "", creationDate: ""});
+
+    const types = [
+        { name: "Low Priority", picture: Electricity },
+        { name: "Medium Priority", picture: Water },
+        { name: "High Priority", picture: Rent },
+    ];
 
     const getAllPostIt = async () => {
         var data = await apiGetAllPostIt();
@@ -126,11 +146,107 @@ export default function PostIt() {
         });
     };
 
+    // When the add form changes
+    const onPostItFormChange = (event) => {
+        const { name, value } = event.target;
+
+        setPostItForm((prevState) => {
+            if (name === "priorityType") {
+                if (value.length <= 0) var newValue = 0;
+                else newValue = parseFloat(value);
+            } else if (name === "message") {
+                newValue = [...prevState.people];
+                var index = newValue.indexOf(value);
+                if (index !== -1) newValue.splice(index, 1);
+                else newValue.push(value);
+            } else if (name === "period") {
+                if (value.length <= 0) newValue = 30;
+                else newValue = parseInt(value);
+            } else newValue = value;
+
+            return { ...prevState, [name]: newValue };
+        });
+    };
+
+    // When the users tries to add post it
+    const onPostItForm = async (event) => {
+        event.preventDefault();
+
+        // const response = await addUtility(addForm.billType, addForm.price, addForm.people, addForm.period);
+
+        setShowAddPopup(false);
+        setPostItForm({ username: "", avatar: "", message: "", creationDate: ""});
+
+        // if (!("error" in response)) loadUtilities();
+    };
+
     return (
         <Tab>
             <div className="postIt">
                 <Header></Header>
                 <ScrollView postItList={postItList} parentDeleteItem={deleteHandler}></ScrollView>
+                <Popup show={showAddPopup} setShow={setShowAddPopup}>
+                    <p className="title">{postItForm.priorityType}</p>
+                    <form autoComplete="off" noValidate spellCheck="false" onSubmit={onPostItForm}>
+                        <div className="priorityContainer" onChange={onPostItFormChange}>
+                            {types.map(({ name, picture }, i) => {
+                                return (
+                                    <React.Fragment key={name}>
+                                        <input id={`priorityType_${name}`} type="radio" name="priorityType" value={name} defaultChecked={i === 0 ? "checked" : ""} />
+                                        <label htmlFor={`priorityType_${name}`}>
+                                            <img src={picture} alt="" className="typeImage" />
+                                        </label>
+                                    </React.Fragment>
+                                );
+                            })}
+                        </div>
+
+                        <div className="inputContainer">
+                            <input
+                                className="input"
+                                placeholder="message"
+                                name="message"
+                                value={postItForm.message}
+                                onChange={onPostItFormChange}
+                            ></input>
+                        </div>
+
+                        <div className="peopleContainer" onChange={onPostItFormChange}>
+                            {Object.keys(profilePictures.current).map((name, i) => {
+                                var currPicture = profilePictures.current[name];
+                                return (
+                                    <React.Fragment key={name}>
+                                        <input id={`people_${name}`} type="checkbox" name="people" value={name} />
+                                        <label htmlFor={`people_${name}`}>
+                                            <img src={currPicture} alt="" className="profileImage" />
+                                        </label>
+                                    </React.Fragment>
+                                );
+                            })}
+                        </div>
+                        <div className="inputContainer">
+                            <input
+                                className="input"
+                                type="number"
+                                min="0"
+                                step="1"
+                                placeholder="period"
+                                name="period"
+                                value={postItForm.period}
+                                onChange={onPostItFormChange}
+                                autoComplete="new-password"
+                            ></input>
+                            <p className="right">days</p>
+                        </div>
+
+                        <button type="submit" className="submitButton">
+                            Add Utility
+                        </button>
+                    </form>
+                </Popup>
+                <div className="add" onClick={() => setShowAddPopup(true)}>
+                    <img src={AddIcon} alt="" className="addIcon" />
+                </div>
             </div>
         </Tab>
     );
