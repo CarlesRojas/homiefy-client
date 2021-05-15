@@ -142,12 +142,11 @@ const APIProvider = ({ children }) => {
 
         try {
             // Fetch
-            var rawResponse = await fetch(`${apiURL}/balance`, {
+            var rawResponse = await fetch(`${apiURL}/balance/`, {
                 method: "post",
                 headers: {
                     Accept: "application/json, text/plain, */*",
                     "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
                 },
                 body: JSON.stringify(postData),
             });
@@ -174,6 +173,7 @@ const APIProvider = ({ children }) => {
                 addUtility,
                 deleteUtility,
                 getMoneySummary,
+                USER,
             }}
         >
             {children}

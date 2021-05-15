@@ -1,9 +1,10 @@
 .moneySummary {
     background-color: rgb(50, 50, 50);
     width: 100%;
-    height: 90%;
+    height: calc(100% - 3rem);
     display: flex;
     flex-direction: column;
+    position: relative;
 
     .scrollView {
         overflow-y: auto;
@@ -22,7 +23,7 @@
         margin: 1rem;
         box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
         .title {
-            flex: 2; 
+            flex: 2;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -56,7 +57,6 @@
                 padding-right: 0.5rem;
             }
         }
-
     }
     .balance {
         position: absolute;
@@ -85,7 +85,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                
+
                 .segment {
                     --degrees: calc((var(--offset, 0) / 100) * 360);
                     height: 100%;
@@ -95,11 +95,11 @@
                     transform-origin: 50% 100%;
                 }
                 .segment::before {
-                    content: '';
+                    content: "";
                     height: 100%;
                     width: 100%;
                     position: absolute;
-                    background-color: var(--bg, rgba(255,0,0,1));
+                    background-color: var(--bg, rgba(255, 0, 0, 1));
                     --degrees: calc((var(--value, 0) / 100) * 360);
                     transform: translate(0, 100%) rotate(calc(var(--degrees) * 1deg));
                     transform-origin: 50% 0;
@@ -118,11 +118,10 @@
                         font-weight: 700;
                         opacity: 0.7;
                         font-size: 2rem;
-                        color: rgb(196, 196, 196)
+                        color: rgb(196, 196, 196);
                     }
                 }
             }
         }
     }
 }
-
