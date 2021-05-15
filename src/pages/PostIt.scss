@@ -75,7 +75,7 @@
         flex-direction: column;
         justify-content: center;
 
-        .typeContainer {
+        .priorityContainer {
             width: 100%;
             height: 4rem;
             padding: 0.5rem;
@@ -156,6 +156,10 @@
                     font-weight: 500;
                 }
             }
+
+            textarea {
+                height: 200px;
+            }
         }
 
         .peopleContainer {
@@ -217,7 +221,7 @@
     }
 
     .header {
-        font-size: 15px;
+        font-size: 12px;
         display: flex;
         flex-direction: column;
         align-items: center;

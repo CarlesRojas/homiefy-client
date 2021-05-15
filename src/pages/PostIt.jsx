@@ -4,7 +4,7 @@ import moment from "moment";
 
 // Contexts
 import { API } from "../contexts/API";
-import {Data} from "../contexts/Data";
+import { Data } from "../contexts/Data";
 import "./PostIt.scss";
 
 // Pictures
@@ -31,7 +31,8 @@ const Header = () => {
 
 const CardView = ({postIt, deleteAction, postItList}) => {
     var secondsToDissappear = 60
-    var createdDate = new Date(postIt.createdDate)
+    // var createdDate = new Date(postIt.createdDate)
+    var createdDate = moment(new Date()).subtract(Math.floor(Math.random() * 30) + 1, 's').toDate();
     var newDateObj = moment(createdDate).add(secondsToDissappear, 's').toDate();
     
     // Total seconds
@@ -98,10 +99,9 @@ const ScrollView = ({ postItList, parentDeleteItem }) => {
         <div className="scrollView">
             <div className="content">
                 {postItList.map((item) => {
-                    console.log()
                     return (
                         <CardView
-                            key={item.id}
+                            key={item.uuid}
                             postIt={item}
                             deleteAction={parentDeleteItem}
                             postItList={postItList}
@@ -115,14 +115,15 @@ const ScrollView = ({ postItList, parentDeleteItem }) => {
 
 export default function PostIt() {
     // context
-    const { apiGetAllPostIt } = useContext(API);
+    const { apiGetAllPostIt, apiAddPostIt, deletePostIt } = useContext(API);
     const { utilities, setUtilities, profilePictures } = useContext(Data);
     
     // State
     const [showAddPopup, setShowAddPopup] = useState(false);
     const [postItList, setPostItList] = useState([]);
     // Form states
-    const [postItForm, setPostItForm] = useState({ username: "", avatar: "", message: "", priorityType: "", period: "", creationDate: ""});
+    const [postItForm, setPostItForm] = useState({ username: "", message: "", priorityType: 0, period: "", people: []});
+    const formTitle = useRef("Low Priority")
 
     const types = [
         { name: "Low Priority", picture: Electricity },
@@ -132,6 +133,8 @@ export default function PostIt() {
 
     const getAllPostIt = async () => {
         var data = await apiGetAllPostIt();
+        data = data.response
+        console.log(data)
         setPostItList(data);
     }
 
@@ -140,10 +143,12 @@ export default function PostIt() {
     }, [])
 
     const deleteHandler = (id) => {
-        setPostItList((oldState) => {
-            let newItems = oldState.filter((item) => item.id !== id);
-            return newItems
-        });
+        deletePostIt(id)
+        getAllPostIt()
+        // setPostItList((oldState) => {
+        //     let newItems = oldState.filter((item) => item.id !== id);
+        //     return newItems
+        // });
     };
 
     // When the add form changes
@@ -151,10 +156,10 @@ export default function PostIt() {
         const { name, value } = event.target;
 
         setPostItForm((prevState) => {
-            if (name === "priorityType") {
+            if (name === "price") {
                 if (value.length <= 0) var newValue = 0;
                 else newValue = parseFloat(value);
-            } else if (name === "message") {
+            } else if (name === "people") {
                 newValue = [...prevState.people];
                 var index = newValue.indexOf(value);
                 if (index !== -1) newValue.splice(index, 1);
@@ -162,6 +167,17 @@ export default function PostIt() {
             } else if (name === "period") {
                 if (value.length <= 0) newValue = 30;
                 else newValue = parseInt(value);
+            } else if (name == "priorityType") {
+                if (value.includes("Low")) {
+                    newValue = 0
+                    formTitle.current = "Low Priority"
+                } else if (value.includes("Medium")) {
+                    newValue = 1
+                    formTitle.current = "Medium Priority"
+                } else {
+                    newValue = 2
+                    formTitle.current = "High Priority"
+                }
             } else newValue = value;
 
             return { ...prevState, [name]: newValue };
@@ -172,12 +188,12 @@ export default function PostIt() {
     const onPostItForm = async (event) => {
         event.preventDefault();
 
-        // const response = await addUtility(addForm.billType, addForm.price, addForm.people, addForm.period);
+        const response = await apiAddPostIt(postItForm.username, postItForm.message, postItForm.priorityType, postItForm.people, postItForm.period);
 
         setShowAddPopup(false);
-        setPostItForm({ username: "", avatar: "", message: "", creationDate: ""});
+        setPostItForm({ username: "", avatar: "", message: "", priorityType: "Low Priority", period: "", people: []});
 
-        // if (!("error" in response)) loadUtilities();
+        if (!("error" in response)) getAllPostIt();
     };
 
     return (
@@ -186,7 +202,7 @@ export default function PostIt() {
                 <Header></Header>
                 <ScrollView postItList={postItList} parentDeleteItem={deleteHandler}></ScrollView>
                 <Popup show={showAddPopup} setShow={setShowAddPopup}>
-                    <p className="title">{postItForm.priorityType}</p>
+                    <p className="title">{formTitle.current}</p>
                     <form autoComplete="off" noValidate spellCheck="false" onSubmit={onPostItForm}>
                         <div className="priorityContainer" onChange={onPostItFormChange}>
                             {types.map(({ name, picture }, i) => {
@@ -201,14 +217,14 @@ export default function PostIt() {
                             })}
                         </div>
 
-                        <div className="inputContainer">
-                            <input
+                        <div className="inputContainer" style={{borderRadius: "5vw"}}>
+                            <textarea
                                 className="input"
-                                placeholder="message"
+                                placeholder="type some message"
                                 name="message"
                                 value={postItForm.message}
                                 onChange={onPostItFormChange}
-                            ></input>
+                            ></textarea>
                         </div>
 
                         <div className="peopleContainer" onChange={onPostItFormChange}>
@@ -240,7 +256,7 @@ export default function PostIt() {
                         </div>
 
                         <button type="submit" className="submitButton">
-                            Add Utility
+                            Add Post-It
                         </button>
                     </form>
                 </Popup>
