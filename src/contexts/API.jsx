@@ -1,9 +1,5 @@
 import React, { createContext } from "react";
-
-// Pictures
-import Electricity from "resources/pictures/Electricity.png";
-import Water from "resources/pictures/Water.png";
-import Rent from "resources/pictures/Rent.png";
+import moment from "moment";
 
 // API Context
 export const API = createContext();
@@ -12,39 +8,6 @@ const APIProvider = ({ children }) => {
     const apiURL = "http://192.168.1.146:8000";
 
     const USER = "Carles";
-
-    // Example API
-    const login = async (email, password) => {
-        // Post data
-        var postData = {
-            email,
-            password,
-        };
-
-        try {
-            // Fetch
-            var rawResponse = await fetch(`${apiURL}/userData/utilities`, {
-                method: "post",
-                headers: {
-                    Accept: "application/json, text/plain, */*",
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                },
-                body: JSON.stringify(postData),
-            });
-
-            // Get data from response
-            const response = await rawResponse.json();
-
-            // Return with error if it is the case
-            if ("error" in response) return response;
-
-            // Return response
-            return response;
-        } catch (error) {
-            return { error: "Login Error" };
-        }
-    };
 
     // const today = new Date();
 
@@ -77,6 +40,17 @@ const APIProvider = ({ children }) => {
     //         // color: "#71c24e",
     //     },
     // };
+
+    const apiGetAllPostIt = async () => {
+        var createdDate1 = moment(new Date()).add(5, "s").toDate();
+        var createdDate2 = moment(new Date()).add(10, "s").toDate();
+        var createdDate3 = moment(new Date()).add(15, "s").toDate();
+        return [
+            { id: 0, username: "Santi", photo: "santi_photo.jpg", message: "message 1", createdDate: createdDate1 },
+            { id: 1, username: "Carles", photo: "carles_photo.jpg", message: "message 2", createdDate: createdDate2 },
+            { id: 2, username: "Jaume", photo: "jaume_photo.jpg", message: "message 3", createdDate: createdDate3 },
+        ];
+    };
 
     const getUtilities = async () => {
         try {
@@ -167,7 +141,7 @@ const APIProvider = ({ children }) => {
         <API.Provider
             value={{
                 apiURL,
-                login,
+                apiGetAllPostIt,
                 getUtilities,
                 addUtility,
                 deleteUtility,

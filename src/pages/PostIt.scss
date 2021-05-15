@@ -1,0 +1,79 @@
+.postIt {
+    background-color: rgb(255, 202, 253);
+    width: 100%;
+    height: 90%;
+
+    .header {
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 5%;
+    }
+
+    .scrollView {
+        overflow-y: auto;
+        height: 95%;
+        width: 100%;
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rosybrown;
+            width: 100%;
+        }
+    }
+
+    .cardViewContent {
+        background-color: red;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+        width: 80%;
+        margin: 20px 0px;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 5px 10px #ffffff;
+
+        .firstRow {
+            display: flex;
+            flex-direction: column;
+            // background-color: blue;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+
+            .userPhotoContainer {
+                height: 35px;
+                width: 35px;
+                margin-bottom: 10px;
+            }
+
+            .username {
+                text-align: center;
+            }
+        }
+        .secondRow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            // background-color: yellow;
+            height: 100%;
+        }
+        .thirdRow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            // background-color: purple;
+            height: 100%;
+            width: 100%;
+        }
+    }
+}

@@ -27,10 +27,9 @@ export default function Navbar() {
 
     return (
         <div className="navbar">
-            <SVG className="icon" src={MoneySummaryIcon} className={classnames("icon", { selected: currPath === "/" })} onClick={() => changeRoute("/")} />
-            <SVG className="icon" src={UtilitiesIcon} className={classnames("icon", { selected: currPath === "/utilities" })} onClick={() => changeRoute("/utilities")} />
-            {/* <img src={MoneySummaryIcon} alt="" className={classnames("icon", { selected: currPath === "/" })} onClick={() => changeRoute("/")} />
-            <img src={UtilitiesIcon} alt="" className={classnames("icon", { selected: currPath === "/utilities" })} onClick={() => changeRoute("/utilities")} /> */}
+            <SVG src={MoneySummaryIcon} className={classnames("icon", { selected: currPath === "/" })} onClick={() => changeRoute("/")} />
+            <SVG src={UtilitiesIcon} className={classnames("icon", { selected: currPath === "/utilities" })} onClick={() => changeRoute("/utilities")} />
+            <SVG src={UtilitiesIcon} className={classnames("icon", { selected: currPath === "/postIt" })} onClick={() => changeRoute("/postIt")} />
         </div>
     );
 }
