@@ -1,0 +1,133 @@
+.utility {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem 0.5rem;
+
+    &:first-child {
+        padding-top: 1rem;
+    }
+
+    .content {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 6rem;
+        width: 100%;
+        box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+        background-color: rgb(42, 42, 42);
+        border-radius: 10px;
+        padding: 1rem;
+
+        .image {
+            height: 3.5rem;
+            max-height: 3.5rem;
+            min-height: 3.5rem;
+            width: 3.5rem;
+            max-width: 3.5rem;
+            min-width: 3.5rem;
+            border-radius: 50vw;
+        }
+
+        .description {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 3.5rem;
+            width: calc(100% - 3.5rem);
+            margin-left: 1rem;
+
+            .titleContainer {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+
+                .name {
+                    color: white;
+                    font-size: 1.1rem;
+                    font-weight: 500;
+                }
+
+                .price {
+                    color: white;
+                    opacity: 0.6;
+                }
+            }
+
+            .people {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                height: 1.8rem;
+                max-height: 1.8rem;
+                min-height: 1.8rem;
+                margin-top: 0.5rem;
+
+                .profilePicture {
+                    height: 1.8rem;
+                    max-height: 1.8rem;
+                    min-height: 1.8rem;
+                    width: 1.8rem;
+                    max-width: 1.8rem;
+                    min-width: 1.8rem;
+                    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+                    margin-left: -0.3rem;
+                    border-radius: 50vw;
+                }
+            }
+        }
+    }
+
+    .progress {
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 1.3rem;
+        width: 100%;
+        box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+        background-color: rgb(42, 42, 42);
+        margin: 0.5rem 0 1rem;
+        border-radius: 100vw;
+        padding: 0.1rem;
+
+        .bar {
+            height: 100%;
+            width: 100%;
+            border-radius: 100vw;
+        }
+
+        .timeLeft {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            color: black;
+            opacity: 0.7;
+            padding-left: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            line-height: 1.3rem;
+        }
+
+        .period {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            color: white;
+            opacity: 0.15;
+            padding-right: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-align: right;
+            line-height: 1.3rem;
+        }
+    }
+}

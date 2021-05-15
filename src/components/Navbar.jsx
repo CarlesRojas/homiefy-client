@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import classnames from "classnames";
+import SVG from "react-inlinesvg";
 import "./Navbar.scss";
 
 // Icons
@@ -9,7 +10,7 @@ import UtilitiesIcon from "resources/icons/Utilities.svg";
 // Contexts
 import { Data } from "contexts/Data";
 
-export default function Navbar(props) {
+export default function Navbar() {
     // Contexts
     const { currPath, setCurrPath } = useContext(Data);
 
@@ -26,9 +27,9 @@ export default function Navbar(props) {
 
     return (
         <div className="navbar">
-            <img src={MoneySummaryIcon} alt="" className={classnames("icon", { selected: currPath === "/" })} onClick={() => changeRoute("/")} />
-            <img src={UtilitiesIcon} alt="" className={classnames("icon", { selected: currPath === "/utilities" })} onClick={() => changeRoute("/utilities")} />
-            <img src={UtilitiesIcon} alt="" className={classnames("icon", { selected: currPath === "/postIt" })} onClick={() => changeRoute("/postIt")} />
+            <SVG src={MoneySummaryIcon} className={classnames("icon", { selected: currPath === "/" })} onClick={() => changeRoute("/")} />
+            <SVG src={UtilitiesIcon} className={classnames("icon", { selected: currPath === "/utilities" })} onClick={() => changeRoute("/utilities")} />
+            <SVG src={UtilitiesIcon} className={classnames("icon", { selected: currPath === "/postIt" })} onClick={() => changeRoute("/postIt")} />
         </div>
     );
 }

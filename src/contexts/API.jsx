@@ -1,6 +1,11 @@
 import React, { createContext } from "react";
 import moment from 'moment';
 
+// Pictures
+import Electrical from "resources/pictures/Electrical.png";
+import Water from "resources/pictures/Water.png";
+import Rent from "resources/pictures/Rent.png";
+
 // API Context
 export const API = createContext();
 
@@ -50,13 +55,69 @@ const APIProvider = ({ children }) => {
         return [{"id": 0, "username": "Santi", "photo": "santi_photo.jpg", "message": "message 1", "createdDate": createdDate1}, {"id": 1, "username": "Carles", "photo": "carles_photo.jpg", "message": "message 2", "createdDate": createdDate2}, {"id": 2, "username": "Jaume", "photo": "jaume_photo.jpg", "message": "message 3", "createdDate": createdDate3}]
     };
 
+    const today = new Date();
+
+    const utilitiesHardcodedResponse = {
+        "Electric Bill": {
+            price: -43,
+            picture: Electrical,
+            periodInDays: 30,
+            peoplePaying: ["Carles"],
+            lastPayment: today.getDate() - 10,
+            color: "#edde4d",
+        },
+        "Water Bill": {
+            price: -32,
+            picture: Water,
+            periodInDays: 60,
+            peoplePaying: ["Santi", "Jaume", "Jia"],
+            lastPayment: today.getDate() - 27,
+            color: "#4a9eed",
+        },
+        Rent: {
+            price: -650,
+            picture: Rent,
+            periodInDays: 30,
+            peoplePaying: ["Santi", "Carles"],
+            lastPayment: today.getDate() - 23,
+            color: "#71c24e",
+        },
+    };
+
+    const getUtilities = () => {
+        try {
+            // Fetch
+            // var rawResponse = await fetch(`${apiURL}${apiVersion}/getUtilities`, {
+            //     method: "post",
+            //     headers: {
+            //         Accept: "application/json, text/plain, */*",
+            //         "Content-Type": "application/json",
+            //         "Access-Control-Allow-Origin": "*",
+            //     },
+            // });
+
+            // Get data from response
+            //const response = await rawResponse.json();
+            // return response;
+
+            // Return response
+            return utilitiesHardcodedResponse;
+        } catch (error) {
+            return { error: "Login Error" };
+        }
+    };
+
+    const addUtility = (name, price, picture, periodInDays, peoplePaying) => {};
+
     // Return the context
     return (
         <API.Provider
             value={{
                 apiURL,
                 login,
-                apiGetAllPostIt
+                apiGetAllPostIt,
+                getUtilities,
+                addUtility,
             }}
         >
             {children}
