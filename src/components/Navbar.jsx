@@ -28,6 +28,7 @@ export default function Navbar(props) {
         <div className="navbar">
             <img src={MoneySummaryIcon} alt="" className={classnames("icon", { selected: currPath === "/" })} onClick={() => changeRoute("/")} />
             <img src={UtilitiesIcon} alt="" className={classnames("icon", { selected: currPath === "/utilities" })} onClick={() => changeRoute("/utilities")} />
+            <img src={UtilitiesIcon} alt="" className={classnames("icon", { selected: currPath === "/postIt" })} onClick={() => changeRoute("/postIt")} />
         </div>
     );
 }

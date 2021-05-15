@@ -1,4 +1,5 @@
 import React, { createContext } from "react";
+import moment from 'moment';
 
 // API Context
 export const API = createContext();
@@ -19,7 +20,7 @@ const APIProvider = ({ children }) => {
 
         try {
             // Fetch
-            var rawResponse = await fetch(`${apiURL}${apiVersion}/user/login`, {
+            var rawResponse = await fetch(`${apiURL}${apiVersion}/username/login`, {
                 method: "post",
                 headers: {
                     Accept: "application/json, text/plain, */*",
@@ -42,12 +43,20 @@ const APIProvider = ({ children }) => {
         }
     };
 
+    const apiGetAllPostIt = async () => {
+        var createdDate1 = moment(new Date()).add(5, 's').toDate();
+        var createdDate2 = moment(new Date()).add(10, 's').toDate();
+        var createdDate3 = moment(new Date()).add(15, 's').toDate();
+        return [{"id": 0, "username": "Santi", "photo": "santi_photo.jpg", "message": "message 1", "createdDate": createdDate1}, {"id": 1, "username": "Carles", "photo": "carles_photo.jpg", "message": "message 2", "createdDate": createdDate2}, {"id": 2, "username": "Jaume", "photo": "jaume_photo.jpg", "message": "message 3", "createdDate": createdDate3}]
+    };
+
     // Return the context
     return (
         <API.Provider
             value={{
                 apiURL,
                 login,
+                apiGetAllPostIt
             }}
         >
             {children}
