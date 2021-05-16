@@ -6,19 +6,40 @@ export const API = createContext();
 
 const APIProvider = ({ children }) => {
     const apiURL = "http://192.168.1.146:8000";
-
+    
     const USER = "Carles";
 
-    const apiGetAllPostIt = async () => {
-        var createdDate1 = moment(new Date()).add(5, "s").toDate();
-        var createdDate2 = moment(new Date()).add(10, "s").toDate();
-        var createdDate3 = moment(new Date()).add(15, "s").toDate();
-        return [
-            { id: 0, username: "Santi", photo: "santi_photo.jpg", message: "message 1", createdDate: createdDate1 },
-            { id: 1, username: "Carles", photo: "carles_photo.jpg", message: "message 2", createdDate: createdDate2 },
-            { id: 2, username: "Jaume", photo: "jaume_photo.jpg", message: "message 3", createdDate: createdDate3 },
-        ];
-    };
+    // const today = new Date();
+
+    // const utilitiesHardcodedResponse = {
+    //     Electricity: {
+    //         username: "Carles",
+    //         price: -43,
+    //         picture: Electricity,
+    //         period: 30,
+    //         peoplePaying: ["Carles"],
+    //         lastPayment: today.getDate() - 10,
+    //         // color: "#edde4d",
+    //     },
+    //     Water: {
+    //         username: "Carles",
+    //         price: -32,
+    //         picture: Water,
+    //         period: 60,
+    //         peoplePaying: ["Santi", "Jaume", "Jia"],
+    //         lastPayment: today.getDate() - 27,
+    //         // color: "#4a9eed",
+    //     },
+    //     Rent: {
+    //         username: "Carles",
+    //         price: -650,
+    //         picture: Rent,
+    //         period: 30,
+    //         peoplePaying: ["Santi", "Carles"],
+    //         lastPayment: today.getDate() - 22,
+    //         // color: "#71c24e",
+    //     },
+    // };
 
     const getUtilities = async () => {
         try {
@@ -76,6 +97,76 @@ const APIProvider = ({ children }) => {
         }
     };
 
+    const apiAddPostIt = async (username, message, priorityType, people, period) => {
+        if (typeof username !== "string" || typeof priorityType !== "number" || typeof message !== "string" || typeof people !== "object" || typeof period !== "number") {console.log("apiAddPostIt Error");
+        return { error: "Error" }};
+
+        const today = new Date();
+
+        // var day = today.getDate();
+        // var month = today.getMonth() + 1;
+        // var year = today.getFullYear();
+        // var createdDate = "";
+
+        // if(month < 10) {
+        //     createdDate = `${day}-0${month}-${year}`;
+        // } else {
+        //     createdDate = `${day}-${month}-${year}`;
+        // }
+
+        // Post data
+        var postData = {
+            username: USER,
+            priorityType: priorityType,
+            people: people,
+            period: period,
+            message: message,
+            createdDate: today.toString(),
+        };
+
+        console.log(postData);
+
+        try {
+            // Fetch
+            var rawResponse = await fetch(`${apiURL}/postits/`, {
+                method: "post",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
+
+            // Get data from response
+            const response = await rawResponse.json();
+
+            return response;
+        } catch (error) {
+            return { error: "Error" };
+        }
+    };
+    
+
+    const apiGetAllPostIt = async () => {
+        try {
+            // Fetch
+            var rawResponse = await fetch(`${apiURL}/postits/`, {
+                method: "get",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                },
+            });
+
+            // Get data from response
+            const response = await rawResponse.json();
+            return response;
+        } catch (error) {
+            console.log(`ERROR ${error}`);
+            return [];
+        }
+    };
+    
     const deleteUtility = async (billType) => {
         // Post data
         var postData = {
@@ -86,6 +177,33 @@ const APIProvider = ({ children }) => {
         try {
             // Fetch
             var rawResponse = await fetch(`${apiURL}/utilities/`, {
+                method: "delete",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
+
+            // Get data from response
+            const response = await rawResponse.json();
+
+            return response;
+        } catch (error) {
+            return { error: "Error" };
+        }
+    };
+
+    const apiDeletePostIt = async (username, uuid) => {
+        // Post data
+        var postData = {
+            username: username,
+            uuid: uuid,
+        };
+
+        try {
+            // Fetch
+            var rawResponse = await fetch(`${apiURL}/postits/`, {
                 method: "delete",
                 headers: {
                     Accept: "application/json, text/plain, */*",
@@ -137,9 +255,11 @@ const APIProvider = ({ children }) => {
             value={{
                 apiURL,
                 apiGetAllPostIt,
+                apiAddPostIt,
                 getUtilities,
                 addUtility,
                 deleteUtility,
+                apiDeletePostIt,
                 getMoneySummary,
                 USER,
             }}
