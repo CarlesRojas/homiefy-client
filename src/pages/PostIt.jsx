@@ -11,7 +11,6 @@ import "./PostIt.scss";
 import Electricity from "resources/pictures/Electricity.png";
 import Water from "resources/pictures/Water.png";
 import Rent from "resources/pictures/Rent.png";
-import JiaImage from "resources/pictures/JiaImage.png";
 
 // Icons
 import AddIcon from "resources/icons/add.svg";
@@ -22,6 +21,7 @@ import Popup from "components/Popup";
 
 const CardView = ({ postIt, deleteAction, postItList }) => {
     const { profilePictures } = useContext(Data);
+    const { USER } = useContext(API);
 
     var secondsToDissappear = 60 * 60 * 24 * postIt.period;
     var createdDate = new Date(postIt.createdDate);
@@ -40,6 +40,7 @@ const CardView = ({ postIt, deleteAction, postItList }) => {
     var secondsLeft = Math.abs(dif2);
 
     var daysCompleted = 1 - secondsLeft / total;
+    //console.log(daysCompleted)
     // console.log(`[ID ${postIt.uuid}] - Current step: ${currentStep}`)
     // console.log(`[ID ${postIt.uuid}] - ${secondsLeft}`)
 
@@ -59,20 +60,14 @@ const CardView = ({ postIt, deleteAction, postItList }) => {
         setTimeout(() => {
             deleteAction(postIt.username, postIt.uuid);
         }, secondsLeft * 1000);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    //var priorityString = "";
     var priorityImage = null;
     if (postIt.priorityType === 0) {
-        //priorityString = "Low Priority";
         priorityImage = Electricity;
     } else if (postIt.priorityType === 1) {
-        //priorityString = "Medium Priority";
         priorityImage = Water;
     } else {
-        //priorityString = "High Priority";
         priorityImage = Rent;
     }
 
@@ -84,7 +79,7 @@ const CardView = ({ postIt, deleteAction, postItList }) => {
                 </div>
                 <div className="middleContainer">
                     <div className="userPhotoContainer">
-                        <img src={JiaImage} alt="" className="userPhoto"></img>
+                        <img src={profilePictures.current[USER]} className="userPhoto"></img>
                     </div>
                     <div className="username">
                         <p>{postIt.username}</p>
@@ -106,7 +101,7 @@ const CardView = ({ postIt, deleteAction, postItList }) => {
             <div className="thirdRow">
                 <div className="progressBar">
                     <p className="period">{(total / 24 / 60 / 60).toFixed(0)} days</p>
-                    <div className="bar" ref={progressBarRef} style={{ width: `${daysCompleted}%` }}></div>
+                    <div className="bar" ref={progressBarRef} style={{ width: `${daysCompleted}%`, background: "#4A9EED" }}></div>
                     <p className="timeLeft">{(secondsLeft / 24 / 60 / 60).toFixed(0)} days left</p>
                 </div>
             </div>
