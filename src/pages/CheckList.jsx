@@ -6,6 +6,8 @@ import Popup from "components/Popup";
 
 // Icons
 import AddIcon from "resources/icons/add.svg";
+import Checked from "resources/icons/checked.svg";
+import Unchecked from "resources/icons/unchecked.svg";
 
 import { API } from "contexts/API";
 import { Data } from "contexts/Data";
@@ -114,7 +116,9 @@ export default function CheckList() {
             {checkList.map((product, i) => (
                 <div className={i === 0 ? "product first" : "product"} key={product["uuid"]}>
                     <div className="content">
-                        <div className={cartProducts[i] ? "check selected" : "check"} onClick={() => addToCart(i)}></div>
+                        <div className="check" onClick={() => addToCart(i)}>
+                            <img key={i} src={cartProducts[i] ? Checked : Unchecked} alt="" className="icon" />
+                        </div>
                         <div className="description">
                             <div className="nameContainer">
                                 <div className="name">{product["name"]}</div>

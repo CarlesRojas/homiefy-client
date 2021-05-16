@@ -54,6 +54,9 @@
             align-items: center;
 
             .check {
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 height: 3.5rem;
                 width: 3.5rem;
                 max-width: 3.5rem;
@@ -61,9 +64,11 @@
                 min-width: 3.5rem;
                 min-height: 3.5rem;
                 border-radius: 50vw;
-                background-color: rosybrown;
-                &.selected {
-                    background-color: greenyellow;
+                .icon {
+                    width: 80%;
+                    height: 80%;
+                    filter: invert(1);
+                    opacity: 0.5;
                 }
             }
 
