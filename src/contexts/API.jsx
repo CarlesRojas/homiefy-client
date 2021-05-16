@@ -1,45 +1,12 @@
 import React, { createContext } from "react";
-import moment from "moment";
 
 // API Context
 export const API = createContext();
 
 const APIProvider = ({ children }) => {
     const apiURL = "http://192.168.1.146:8000";
-    
+
     const USER = "Carles";
-
-    // const today = new Date();
-
-    // const utilitiesHardcodedResponse = {
-    //     Electricity: {
-    //         username: "Carles",
-    //         price: -43,
-    //         picture: Electricity,
-    //         period: 30,
-    //         peoplePaying: ["Carles"],
-    //         lastPayment: today.getDate() - 10,
-    //         // color: "#edde4d",
-    //     },
-    //     Water: {
-    //         username: "Carles",
-    //         price: -32,
-    //         picture: Water,
-    //         period: 60,
-    //         peoplePaying: ["Santi", "Jaume", "Jia"],
-    //         lastPayment: today.getDate() - 27,
-    //         // color: "#4a9eed",
-    //     },
-    //     Rent: {
-    //         username: "Carles",
-    //         price: -650,
-    //         picture: Rent,
-    //         period: 30,
-    //         peoplePaying: ["Santi", "Carles"],
-    //         lastPayment: today.getDate() - 22,
-    //         // color: "#71c24e",
-    //     },
-    // };
 
     const getUtilities = async () => {
         try {
@@ -98,8 +65,10 @@ const APIProvider = ({ children }) => {
     };
 
     const apiAddPostIt = async (username, message, priorityType, people, period) => {
-        if (typeof username !== "string" || typeof priorityType !== "number" || typeof message !== "string" || typeof people !== "object" || typeof period !== "number") {console.log("apiAddPostIt Error");
-        return { error: "Error" }};
+        if (typeof username !== "string" || typeof priorityType !== "number" || typeof message !== "string" || typeof people !== "object" || typeof period !== "number") {
+            console.log("apiAddPostIt Error");
+            return { error: "Error" };
+        }
 
         const today = new Date();
 
@@ -145,7 +114,6 @@ const APIProvider = ({ children }) => {
             return { error: "Error" };
         }
     };
-    
 
     const apiGetAllPostIt = async () => {
         try {
@@ -166,7 +134,7 @@ const APIProvider = ({ children }) => {
             return [];
         }
     };
-    
+
     const deleteUtility = async (billType) => {
         // Post data
         var postData = {
@@ -250,16 +218,14 @@ const APIProvider = ({ children }) => {
     };
 
     const postBalance = async (username, people, price, name) => {
-
         var postData = {
             username,
             people,
             price,
             name,
-        }
+        };
 
         try {
-
             var rawResponse = await fetch(`${apiURL}/balance/add/`, {
                 method: "post",
                 headers: {
@@ -277,11 +243,9 @@ const APIProvider = ({ children }) => {
         } catch (error) {
             return { error: error };
         }
-
-    }
+    };
 
     const getCheckList = async () => {
-
         try {
             // Fetch
             var rawResponse = await fetch(`${apiURL}/list`, {
@@ -303,12 +267,11 @@ const APIProvider = ({ children }) => {
         }
     };
 
-    const postCheckList = async(name, people, price) => {
-
+    const postCheckList = async (name, people, price) => {
         var postData = {
             name,
             people,
-            price
+            price,
         };
 
         try {
@@ -331,8 +294,7 @@ const APIProvider = ({ children }) => {
         } catch (error) {
             return { error: error };
         }
-
-    }
+    };
 
     const deleteListElement = async (uuid) => {
         // Post data

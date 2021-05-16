@@ -13,44 +13,33 @@ import Water from "resources/pictures/Water.png";
 import Rent from "resources/pictures/Rent.png";
 import JiaImage from "resources/pictures/JiaImage.png";
 
-
 // Icons
-import UserIcon from "resources/icons/close.svg";
 import AddIcon from "resources/icons/add.svg";
 
 // Components
 import Tab from "components/Tab";
 import Popup from "components/Popup";
 
-const Header = () => {
-    return (
-        <div className="header">
-            <h1>Post It</h1>
-        </div>
-    );
-};
+const CardView = ({ postIt, deleteAction, postItList }) => {
+    const { profilePictures } = useContext(Data);
 
-const CardView = ({postIt, deleteAction, postItList}) => {
-
-    const { profilePictures, colors } = useContext(Data);
-
-    var secondsToDissappear = 60 * 60 * 24 * postIt.period
+    var secondsToDissappear = 60 * 60 * 24 * postIt.period;
     var createdDate = new Date(postIt.createdDate);
-    var newDateObj = moment(createdDate).add(secondsToDissappear, 's').toDate();
-    
+    var newDateObj = moment(createdDate).add(secondsToDissappear, "s").toDate();
+
     // Total seconds
     var dif = newDateObj.getTime() - createdDate.getTime();
-    var dif = dif / 1000;
+    dif = dif / 1000;
     var total = Math.abs(dif);
     // console.log(`[ID ${postIt.uuid}] - Total: ${total}`)
 
     // Seconds left
-    var currentDate = new Date()
+    var currentDate = new Date();
     var dif2 = newDateObj.getTime() - currentDate.getTime();
     dif2 = dif2 / 1000;
     var secondsLeft = Math.abs(dif2);
 
-    var daysCompleted = (1 - secondsLeft / total)
+    var daysCompleted = 1 - secondsLeft / total;
     // console.log(`[ID ${postIt.uuid}] - Current step: ${currentStep}`)
     // console.log(`[ID ${postIt.uuid}] - ${secondsLeft}`)
 
@@ -68,33 +57,34 @@ const CardView = ({postIt, deleteAction, postItList}) => {
 
     useEffect(() => {
         setTimeout(() => {
-            deleteAction(postIt.username, postIt.uuid)
+            deleteAction(postIt.username, postIt.uuid);
         }, secondsLeft * 1000);
-    }, [])
 
-    var priorityString = ""
-    var priorityImage = null
-    if (postIt.priorityType == 0) {
-        priorityString = "Low Priority"
-        priorityImage = Electricity
-    } else if (postIt.priorityType == 1) {
-        priorityString = "Medium Priority"
-        priorityImage = Water
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    //var priorityString = "";
+    var priorityImage = null;
+    if (postIt.priorityType === 0) {
+        //priorityString = "Low Priority";
+        priorityImage = Electricity;
+    } else if (postIt.priorityType === 1) {
+        //priorityString = "Medium Priority";
+        priorityImage = Water;
     } else {
-        priorityString = "High Priority"
-        priorityImage = Rent
-        
+        //priorityString = "High Priority";
+        priorityImage = Rent;
     }
 
     return (
         <div className="cardViewContent">
             <div className="firstRow">
                 <div className="leftContainer">
-                    <img src={priorityImage} className="priorityImg"></img>
+                    <img src={priorityImage} alt="" className="priorityImg"></img>
                 </div>
                 <div className="middleContainer">
                     <div className="userPhotoContainer">
-                        <img src={JiaImage} className="userPhoto"></img>
+                        <img src={JiaImage} alt="" className="userPhoto"></img>
                     </div>
                     <div className="username">
                         <p>{postIt.username}</p>
@@ -106,8 +96,7 @@ const CardView = ({postIt, deleteAction, postItList}) => {
                             <img key={i} src={profilePictures.current[name]} alt="" className="profilePicture" />
                         ))}
                     </div>
-                    
-                </div>               
+                </div>
             </div>
             <div className="secondRow">
                 <div className="textContent">
@@ -117,7 +106,7 @@ const CardView = ({postIt, deleteAction, postItList}) => {
             <div className="thirdRow">
                 <div className="progressBar">
                     <p className="period">{(total / 24 / 60 / 60).toFixed(0)} days</p>
-                    <div className="bar" ref={progressBarRef} style={{ width: `${daysCompleted}%`}}></div>
+                    <div className="bar" ref={progressBarRef} style={{ width: `${daysCompleted}%` }}></div>
                     <p className="timeLeft">{(secondsLeft / 24 / 60 / 60).toFixed(0)} days left</p>
                 </div>
             </div>
@@ -130,14 +119,7 @@ const ScrollView = ({ postItList, parentDeleteItem }) => {
         <div className="scrollView">
             <div className="content">
                 {postItList.map((item) => {
-                    return (
-                        <CardView
-                            key={item.uuid}
-                            postIt={item}
-                            deleteAction={parentDeleteItem}
-                            postItList={postItList}
-                        ></CardView>
-                    );
+                    return <CardView key={item.uuid} postIt={item} deleteAction={parentDeleteItem} postItList={postItList}></CardView>;
                 })}
             </div>
         </div>
@@ -147,14 +129,14 @@ const ScrollView = ({ postItList, parentDeleteItem }) => {
 export default function PostIt() {
     // context
     const { apiGetAllPostIt, apiAddPostIt, apiDeletePostIt } = useContext(API);
-    const { utilities, setUtilities, profilePictures } = useContext(Data);
-    
+    const { profilePictures } = useContext(Data);
+
     // State
     const [showAddPopup, setShowAddPopup] = useState(false);
     const [postItList, setPostItList] = useState([]);
     // Form states
-    const [postItForm, setPostItForm] = useState({ username: "", message: "", priorityType: 0, period: "", people: []});
-    const formTitle = useRef("Low Priority")
+    const [postItForm, setPostItForm] = useState({ username: "", message: "", priorityType: 0, period: "", people: [] });
+    const formTitle = useRef("Low Priority");
 
     const types = [
         { name: "Low Priority", picture: Electricity },
@@ -164,17 +146,19 @@ export default function PostIt() {
 
     const getAllPostIt = async () => {
         var data = await apiGetAllPostIt();
-        data = data.response
-        console.log(data)
+        data = data.response;
+        console.log(data);
         setPostItList(data);
-    }
+    };
 
-    useEffect(() => { 
-        getAllPostIt()
-    }, [])
+    useEffect(() => {
+        getAllPostIt();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const deleteHandler = async (username, id) => {
-        console.log("Deleting " + id)
+        console.log("Deleting " + id);
         var response = await apiDeletePostIt(username, id);
         console.log(response);
         getAllPostIt();
@@ -200,16 +184,16 @@ export default function PostIt() {
             } else if (name === "period") {
                 if (value.length <= 0) newValue = 30;
                 else newValue = parseInt(value);
-            } else if (name == "priorityType") {
+            } else if (name === "priorityType") {
                 if (value.includes("Low")) {
-                    newValue = 0
-                    formTitle.current = "Low Priority"
+                    newValue = 0;
+                    formTitle.current = "Low Priority";
                 } else if (value.includes("Medium")) {
-                    newValue = 1
-                    formTitle.current = "Medium Priority"
+                    newValue = 1;
+                    formTitle.current = "Medium Priority";
                 } else {
-                    newValue = 2
-                    formTitle.current = "High Priority"
+                    newValue = 2;
+                    formTitle.current = "High Priority";
                 }
             } else newValue = value;
 
@@ -224,7 +208,7 @@ export default function PostIt() {
         const response = await apiAddPostIt(postItForm.username, postItForm.message, postItForm.priorityType, postItForm.people, postItForm.period);
 
         setShowAddPopup(false);
-        setPostItForm({ username: "", avatar: "", message: "", priorityType: "Low Priority", period: "", people: []});
+        setPostItForm({ username: "", avatar: "", message: "", priorityType: "Low Priority", period: "", people: [] });
 
         if (!("error" in response)) getAllPostIt();
     };
@@ -249,14 +233,8 @@ export default function PostIt() {
                             })}
                         </div>
 
-                        <div className="inputContainer" style={{borderRadius: "5vw"}}>
-                            <textarea
-                                className="input"
-                                placeholder="type some message"
-                                name="message"
-                                value={postItForm.message}
-                                onChange={onPostItFormChange}
-                            ></textarea>
+                        <div className="inputContainer" style={{ borderRadius: "5vw" }}>
+                            <textarea className="input" placeholder="type some message" name="message" value={postItForm.message} onChange={onPostItFormChange}></textarea>
                         </div>
 
                         <div className="peopleContainer" onChange={onPostItFormChange}>

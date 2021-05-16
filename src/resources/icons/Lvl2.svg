@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 517.52 512">
+    <g id="Lvl2">
+        <line x1="81.93" y1="383.57" x2="258.76" y2="257.77"
+            style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:58px" />
+        <line x1="435.59" y1="383.57" x2="258.76" y2="257.77"
+            style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:58px" />
+        <line x1="81.93" y1="254.23" x2="258.76" y2="128.43"
+            style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:58px" />
+        <line x1="435.59" y1="254.23" x2="258.76" y2="128.43"
+            style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:58px" />
+    </g>
+</svg>
