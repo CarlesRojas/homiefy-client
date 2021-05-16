@@ -163,6 +163,60 @@ const APIProvider = ({ children }) => {
         }
     };
 
+    const getCheckList = async () => {
+
+        try {
+            // Fetch
+            var rawResponse = await fetch(`${apiURL}/list`, {
+                method: "get",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                },
+            });
+
+            // Get data from response
+            const response = await rawResponse.json();
+
+            if ("error" in response) return response;
+
+            return response;
+        } catch (error) {
+            return { error: error };
+        }
+    };
+
+    const postCheckList = async(name, people, price) => {
+
+        var postData = {
+            name,
+            people,
+            price
+        };
+
+        try {
+            // Fetch
+            var rawResponse = await fetch(`${apiURL}/list/`, {
+                method: "post",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
+
+            // Get data from response
+            const response = await rawResponse.json();
+
+            if ("error" in response) return response;
+
+            return response;
+        } catch (error) {
+            return { error: error };
+        }
+
+    }
+
     // Return the context
     return (
         <API.Provider
@@ -173,6 +227,8 @@ const APIProvider = ({ children }) => {
                 addUtility,
                 deleteUtility,
                 getMoneySummary,
+                getCheckList,
+                postCheckList,
                 USER,
             }}
         >
