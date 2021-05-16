@@ -80,7 +80,7 @@ const CardView = ({ postIt, deleteAction, postItList }) => {
                 </div>
                 <div className="middleContainer">
                     <div className="userPhotoContainer">
-                        <img src={profilePictures.current[USER]} className="userPhoto"></img>
+                        <img src={profilePictures.current[postIt.username]} className="userPhoto"></img>
                     </div>
                     <div className="username">
                         <p>{postIt.username}</p>
