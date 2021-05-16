@@ -11,28 +11,18 @@ import "./PostIt.scss";
 import Electricity from "resources/pictures/Electricity.png";
 import Water from "resources/pictures/Water.png";
 import Rent from "resources/pictures/Rent.png";
-import JiaImage from "resources/pictures/JiaImage.png";
-
 
 // Icons
-import UserIcon from "resources/icons/close.svg";
 import AddIcon from "resources/icons/add.svg";
 
 // Components
 import Tab from "components/Tab";
 import Popup from "components/Popup";
 
-const Header = () => {
-    return (
-        <div className="header">
-            <h1>Post It</h1>
-        </div>
-    );
-};
-
 const CardView = ({postIt, deleteAction, postItList}) => {
 
-    const { profilePictures, colors } = useContext(Data);
+    const { profilePictures } = useContext(Data);
+    const { USER } = useContext(API);
 
     var secondsToDissappear = 60 * 60 * 24 * postIt.period
     var createdDate = new Date(postIt.createdDate);
@@ -40,7 +30,7 @@ const CardView = ({postIt, deleteAction, postItList}) => {
     
     // Total seconds
     var dif = newDateObj.getTime() - createdDate.getTime();
-    var dif = dif / 1000;
+    dif = dif / 1000;
     var total = Math.abs(dif);
     // console.log(`[ID ${postIt.uuid}] - Total: ${total}`)
 
@@ -51,6 +41,7 @@ const CardView = ({postIt, deleteAction, postItList}) => {
     var secondsLeft = Math.abs(dif2);
 
     var daysCompleted = (1 - secondsLeft / total)
+    console.log(daysCompleted)
     // console.log(`[ID ${postIt.uuid}] - Current step: ${currentStep}`)
     // console.log(`[ID ${postIt.uuid}] - ${secondsLeft}`)
 
@@ -72,18 +63,13 @@ const CardView = ({postIt, deleteAction, postItList}) => {
         }, secondsLeft * 1000);
     }, [])
 
-    var priorityString = ""
     var priorityImage = null
-    if (postIt.priorityType == 0) {
-        priorityString = "Low Priority"
+    if (postIt.priorityType === 0) {
         priorityImage = Electricity
-    } else if (postIt.priorityType == 1) {
-        priorityString = "Medium Priority"
+    } else if (postIt.priorityType === 1) {
         priorityImage = Water
     } else {
-        priorityString = "High Priority"
         priorityImage = Rent
-        
     }
 
     return (
@@ -94,7 +80,7 @@ const CardView = ({postIt, deleteAction, postItList}) => {
                 </div>
                 <div className="middleContainer">
                     <div className="userPhotoContainer">
-                        <img src={JiaImage} className="userPhoto"></img>
+                        <img src={profilePictures.current[USER]} className="userPhoto"></img>
                     </div>
                     <div className="username">
                         <p>{postIt.username}</p>
@@ -117,7 +103,7 @@ const CardView = ({postIt, deleteAction, postItList}) => {
             <div className="thirdRow">
                 <div className="progressBar">
                     <p className="period">{(total / 24 / 60 / 60).toFixed(0)} days</p>
-                    <div className="bar" ref={progressBarRef} style={{ width: `${daysCompleted}%`}}></div>
+                    <div className="bar" ref={progressBarRef} style={{ width: `${daysCompleted}%`, background: "#4A9EED" }}></div>
                     <p className="timeLeft">{(secondsLeft / 24 / 60 / 60).toFixed(0)} days left</p>
                 </div>
             </div>
@@ -147,7 +133,7 @@ const ScrollView = ({ postItList, parentDeleteItem }) => {
 export default function PostIt() {
     // context
     const { apiGetAllPostIt, apiAddPostIt, apiDeletePostIt } = useContext(API);
-    const { utilities, setUtilities, profilePictures } = useContext(Data);
+    const { profilePictures } = useContext(Data);
     
     // State
     const [showAddPopup, setShowAddPopup] = useState(false);
@@ -200,7 +186,7 @@ export default function PostIt() {
             } else if (name === "period") {
                 if (value.length <= 0) newValue = 30;
                 else newValue = parseInt(value);
-            } else if (name == "priorityType") {
+            } else if (name === "priorityType") {
                 if (value.includes("Low")) {
                     newValue = 0
                     formTitle.current = "Low Priority"

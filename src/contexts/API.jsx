@@ -7,7 +7,7 @@ export const API = createContext();
 const APIProvider = ({ children }) => {
     const apiURL = "http://192.168.1.146:8000";
     
-    const USER = "Carles";
+    const USER = "Jia";
 
     // const today = new Date();
 
