@@ -40,7 +40,7 @@ const CardView = ({ postIt, deleteAction, postItList }) => {
     dif2 = dif2 / 1000;
     var secondsLeft = Math.abs(dif2);
 
-    var daysCompleted = 1 - secondsLeft / total;
+    var daysCompleted = (1 - secondsLeft / total) * 100;
     //console.log(daysCompleted)
     // console.log(`[ID ${postIt.uuid}] - Current step: ${currentStep}`)
     // console.log(`[ID ${postIt.uuid}] - ${secondsLeft}`)
