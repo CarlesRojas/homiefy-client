@@ -5,6 +5,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import MoneySummary from "pages/MoneySummary";
 import Utilities from "pages/Utilities";
 import PostIt from "pages/PostIt";
+import CheckList from "pages/CheckList";
 
 // Components
 import Navbar from "components/Navbar";
@@ -20,6 +21,7 @@ export default function App() {
                         exact
                     ></Route>
                     <Route path="/postIt" component={PostIt} exact></Route>
+                    <Route path="/checkList" component={CheckList} exact></Route>
                     <Route path="/" component={MoneySummary} exact></Route>
                 </Switch>
             </Router>

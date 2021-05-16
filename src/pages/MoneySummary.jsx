@@ -75,8 +75,6 @@ export default function MoneySummary() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log(pieData);
-
     const onSegment = (event, segmentIndex) => {
         var data = pieData[segmentIndex];
         if (segmentIndex === lastSelected.current) {
