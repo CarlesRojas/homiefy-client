@@ -9,6 +9,9 @@ import Popup from "components/Popup";
 import Electricity from "resources/pictures/Electricity.png";
 import Water from "resources/pictures/Water.png";
 import Rent from "resources/pictures/Rent.png";
+import TV from "resources/pictures/TV.png";
+import Gas from "resources/pictures/Gas.png";
+import Internet from "resources/pictures/Internet.png";
 
 // Icons
 import AddIcon from "resources/icons/add.svg";
@@ -45,6 +48,9 @@ export default function Utilities() {
         { name: "Electricity", picture: Electricity },
         { name: "Water", picture: Water },
         { name: "Rent", picture: Rent },
+        { name: "TV", picture: TV },
+        { name: "Gas", picture: Gas },
+        { name: "Internet", picture: Internet },
     ];
 
     // Form states

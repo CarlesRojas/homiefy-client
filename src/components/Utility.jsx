@@ -5,6 +5,9 @@ import "./Utility.scss";
 import Electricity from "resources/pictures/Electricity.png";
 import Water from "resources/pictures/Water.png";
 import Rent from "resources/pictures/Rent.png";
+import TV from "resources/pictures/TV.png";
+import Gas from "resources/pictures/Gas.png";
+import Internet from "resources/pictures/Internet.png";
 
 // Contexts
 import { Data } from "contexts/Data";
@@ -35,6 +38,18 @@ export default function Utility({ name, data }) {
 
         case "Rent":
             picture = Rent;
+            break;
+
+        case "TV":
+            picture = TV;
+            break;
+
+        case "Gas":
+            picture = Gas;
+            break;
+
+        case "Internet":
+            picture = Internet;
             break;
 
         default:

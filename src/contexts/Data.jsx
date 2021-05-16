@@ -33,6 +33,9 @@ const DataProvider = ({ children }) => {
         Food: "#b8ff3c",
         Movies: "#61f3ff",
         Shopping: "#c72cee",
+        TV: "#e1363e",
+        Gas: "#eaac22",
+        Internet: "#d580f8",
     });
 
     // #################################################
