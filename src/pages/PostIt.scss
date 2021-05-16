@@ -25,6 +25,11 @@
         @content;
     }
 }
+@font-face {
+    font-family: "Rojas";
+    font-weight: normal;
+    src: local("Pixel"), url("../resources/fonts/Rojas.ttf") format("truetype");
+}
 
 .postIt {
     background-color: #212121;
@@ -334,9 +339,14 @@
             flex: 2;
             height: 100%;
             width: 100%;
+
             .textContent {
                 color: white;
-                font-style: italic;
+
+                p {
+                    font-size: 1.1rem;
+                    font-family: "Rojas";
+                }
             }
         }
         .thirdRow {
