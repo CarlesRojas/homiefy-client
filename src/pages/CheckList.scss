@@ -62,6 +62,9 @@
                 min-height: 3.5rem;
                 border-radius: 50vw;
                 background-color: rosybrown;
+                &.selected {
+                    background-color: greenyellow;
+                }
             }
 
             .description {
@@ -262,5 +265,21 @@
             background-color: rgb(105, 105, 105);
             box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
         }
+    }
+    .payNow {
+        width: 85%;
+        min-height: 50px;
+        cursor: pointer;
+        color: white;
+        margin-bottom: 4%;
+        margin-top: 4%;
+        padding: 14px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-align: center;
+        text-transform: uppercase;
+        border-radius: 100vw;
+        background-color: rgb(105, 105, 105);
+        box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.3);
     }
 }

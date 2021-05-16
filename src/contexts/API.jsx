@@ -249,6 +249,37 @@ const APIProvider = ({ children }) => {
         }
     };
 
+    const postBalance = async (username, people, price, name) => {
+
+        var postData = {
+            username,
+            people,
+            price,
+            name,
+        }
+
+        try {
+
+            var rawResponse = await fetch(`${apiURL}/balance/add/`, {
+                method: "post",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
+
+            const response = await rawResponse.json();
+
+            if ("error" in response) return response;
+
+            return response;
+        } catch (error) {
+            return { error: error };
+        }
+
+    }
+
     const getCheckList = async () => {
 
         try {
@@ -303,6 +334,32 @@ const APIProvider = ({ children }) => {
 
     }
 
+    const deleteListElement = async (uuid) => {
+        // Post data
+        var postData = {
+            uuid,
+        };
+
+        try {
+            // Fetch
+            var rawResponse = await fetch(`${apiURL}/list/`, {
+                method: "delete",
+                headers: {
+                    Accept: "application/json, text/plain, */*",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
+
+            // Get data from response
+            const response = await rawResponse.json();
+
+            return response;
+        } catch (error) {
+            return { error: "Error" };
+        }
+    };
+
     // Return the context
     return (
         <API.Provider
@@ -315,8 +372,10 @@ const APIProvider = ({ children }) => {
                 deleteUtility,
                 apiDeletePostIt,
                 getMoneySummary,
+                postBalance,
                 getCheckList,
                 postCheckList,
+                deleteListElement,
                 USER,
             }}
         >

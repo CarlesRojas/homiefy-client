@@ -32,6 +32,7 @@ const DataProvider = ({ children }) => {
         Restaurant: "#f261ff",
         Food: "#b8ff3c",
         Movies: "#61f3ff",
+        Shopping: "#c72cee",
     });
 
     // #################################################
