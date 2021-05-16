@@ -5,7 +5,9 @@ import "./Navbar.scss";
 
 // Icons
 import MoneySummaryIcon from "resources/icons/MoneySummary.svg";
-import UtilitiesIcon from "resources/icons/Utilities.svg";
+import UtilitiesIcon from "resources/icons/invoice.svg";
+import PostitIcon from "resources/icons/postit.svg";
+import ChecklistIcon from "resources/icons/shop.svg";
 
 // Contexts
 import { Data } from "contexts/Data";
@@ -29,8 +31,8 @@ export default function Navbar() {
         <div className="navbar">
             <SVG src={MoneySummaryIcon} className={classnames("icon", { selected: currPath === "/" })} onClick={() => changeRoute("/")} />
             <SVG src={UtilitiesIcon} className={classnames("icon", { selected: currPath === "/utilities" })} onClick={() => changeRoute("/utilities")} />
-            <SVG src={UtilitiesIcon} className={classnames("icon", { selected: currPath === "/postIt" })} onClick={() => changeRoute("/postIt")} />
-            <SVG src={UtilitiesIcon} className={classnames("icon", { selected: currPath === "/checkList" })} onClick={() => changeRoute("/checkList")} />
+            <SVG src={PostitIcon} className={classnames("icon", { selected: currPath === "/postIt" })} onClick={() => changeRoute("/postIt")} />
+            <SVG src={ChecklistIcon} className={classnames("icon", { selected: currPath === "/checkList" })} onClick={() => changeRoute("/checkList")} />
         </div>
     );
 }

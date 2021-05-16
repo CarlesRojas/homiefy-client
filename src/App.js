@@ -15,11 +15,7 @@ export default function App() {
         <div className="app">
             <Router>
                 <Switch>
-                    <Route
-                        path="/utilities"
-                        component={Utilities}
-                        exact
-                    ></Route>
+                    <Route path="/utilities" component={Utilities} exact></Route>
                     <Route path="/postIt" component={PostIt} exact></Route>
                     <Route path="/checkList" component={CheckList} exact></Route>
                     <Route path="/" component={MoneySummary} exact></Route>

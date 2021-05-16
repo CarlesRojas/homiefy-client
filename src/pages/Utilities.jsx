@@ -153,6 +153,7 @@ export default function Utilities() {
                     </form>
                 </Popup>
 
+                <p className="mainTitle">Utilities</p>
                 <div className="container">{content}</div>
                 <div className="add" onClick={() => setShowAddPopup(true)}>
                     <img src={AddIcon} alt="" className="addIcon" />

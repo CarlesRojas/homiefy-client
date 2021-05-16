@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect, useContext, useRef } from "react";
 import moment from "moment";
+import SVG from "react-inlinesvg";
 
 // Contexts
 import { API } from "../contexts/API";
@@ -8,9 +9,9 @@ import { Data } from "../contexts/Data";
 import "./PostIt.scss";
 
 // Pictures
-import Electricity from "resources/pictures/Electricity.png";
-import Water from "resources/pictures/Water.png";
-import Rent from "resources/pictures/Rent.png";
+import Lvl1 from "resources/icons/Lvl1.svg";
+import Lvl2 from "resources/icons/Lvl2.svg";
+import Lvl3 from "resources/icons/Lvl3.svg";
 
 // Icons
 import AddIcon from "resources/icons/add.svg";
@@ -64,18 +65,18 @@ const CardView = ({ postIt, deleteAction, postItList }) => {
 
     var priorityImage = null;
     if (postIt.priorityType === 0) {
-        priorityImage = Electricity;
+        priorityImage = Lvl1;
     } else if (postIt.priorityType === 1) {
-        priorityImage = Water;
+        priorityImage = Lvl2;
     } else {
-        priorityImage = Rent;
+        priorityImage = Lvl3;
     }
 
     return (
         <div className="cardViewContent">
             <div className="firstRow">
                 <div className="leftContainer">
-                    <img src={priorityImage} alt="" className="priorityImg"></img>
+                    <SVG src={priorityImage} className="priorityImg" />
                 </div>
                 <div className="middleContainer">
                     <div className="userPhotoContainer">
@@ -101,7 +102,7 @@ const CardView = ({ postIt, deleteAction, postItList }) => {
             <div className="thirdRow">
                 <div className="progressBar">
                     <p className="period">{(total / 24 / 60 / 60).toFixed(0)} days</p>
-                    <div className="bar" ref={progressBarRef} style={{ width: `${daysCompleted}%`, background: "#4A9EED" }}></div>
+                    <div className="bar" ref={progressBarRef} style={{ width: `${daysCompleted}%`, background: "rgb(248 255 141)" }}></div>
                     <p className="timeLeft">{(secondsLeft / 24 / 60 / 60).toFixed(0)} days left</p>
                 </div>
             </div>
@@ -134,9 +135,9 @@ export default function PostIt() {
     const formTitle = useRef("Low Priority");
 
     const types = [
-        { name: "Low Priority", picture: Electricity },
-        { name: "Medium Priority", picture: Water },
-        { name: "High Priority", picture: Rent },
+        { name: "Low Priority", picture: Lvl1 },
+        { name: "Medium Priority", picture: Lvl2 },
+        { name: "High Priority", picture: Lvl3 },
     ];
 
     const getAllPostIt = async () => {
@@ -211,6 +212,8 @@ export default function PostIt() {
     return (
         <Tab>
             <div className="postIt">
+                <p className="mainTitle">Post-It</p>
+
                 <ScrollView postItList={postItList} parentDeleteItem={deleteHandler}></ScrollView>
                 <Popup show={showAddPopup} setShow={setShowAddPopup}>
                     <p className="title">{formTitle.current}</p>
@@ -221,7 +224,7 @@ export default function PostIt() {
                                     <React.Fragment key={name}>
                                         <input id={`priorityType_${name}`} type="radio" name="priorityType" value={name} defaultChecked={i === 0 ? "checked" : ""} />
                                         <label htmlFor={`priorityType_${name}`}>
-                                            <img src={picture} alt="" className="typeImage" />
+                                            <SVG src={picture} className="typeImage" />
                                         </label>
                                     </React.Fragment>
                                 );

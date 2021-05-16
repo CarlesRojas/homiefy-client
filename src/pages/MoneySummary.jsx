@@ -105,6 +105,8 @@ export default function MoneySummary() {
     return (
         <Tab>
             <div className="moneySummary">
+                <p className="mainTitle">Balance</p>
+
                 <div className="userBalance">
                     <div className="title">
                         <div className="text" style={{ color: userBalance >= 0 ? "#84ff84" : "#ff8563" }}>
