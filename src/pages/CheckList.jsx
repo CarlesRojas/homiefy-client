@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import "./CheckList.scss"
 
 import Tab from 'components/Tab'
@@ -14,10 +14,12 @@ import { Data } from 'contexts/Data';
 export default function CheckList() {
 
 
-    const { getCheckList, postCheckList } = useContext(API);
+    const { getCheckList, postCheckList, deleteListElement, postBalance, USER } = useContext(API);
     const { profilePictures } = useContext(Data);
 
-    const [checkList, setCheckList] = useState([])
+    const [checkList, setCheckList] = useState([]);
+    const productsList = useRef([])
+    const [cartProducts, setCartProducts] = useState([false]);
     const [showAddPopup, setShowAddPopup] = useState(false);
 
     const [addForm, setAddForm] = useState({
@@ -29,7 +31,9 @@ export default function CheckList() {
     
     const callAPI = async () => {
         const response = await getCheckList();
+        setCartProducts(Array(response["response"].length).fill(false))
         setCheckList(response["response"]);
+        productsList.current = response["response"];
     };
     
     useEffect(() => {
@@ -73,11 +77,49 @@ export default function CheckList() {
         if (!("error" in response)) callAPI();
     }
 
+    const addToCart = (iterator) => {
+        var aux = cartProducts;
+        aux[iterator] = !aux[iterator];
+        setCartProducts([...aux]);
+    }
+
+    const payAllProducts = () => {
+
+        var productsToPay = [];
+        productsList.current.forEach((product, i) => {
+            if (cartProducts[i]) productsToPay.push(product);
+        })
+
+        var orders = {};
+        productsToPay.forEach((product) => {
+            var key = product["people"].sort().join()
+            if (!(key  in orders)) orders[key] = { username: USER, people: product["people"], price: 0, name: "Shopping"};
+            orders[key]["price"] += product["price"];
+        });
+
+        for (let key in orders) {
+            var order = orders[key];
+            postBalance(order["username"], order["people"], order["price"], order["name"]);
+        }
+
+        var aux = checkList;
+        for (var i = cartProducts.length; i >= 0; i--) {
+            if (cartProducts[i]) {
+                deleteListElement(checkList[i]["uuid"])
+                aux.splice(i, 1);
+            }
+        }
+
+        setCheckList([...aux]);
+        productsList.current = [...aux];
+        setCartProducts(Array(aux.length).fill(false))
+    }
+
     const products = <React.Fragment>
         {checkList.map((product, i) => (
             <div className={ i === 0 ? "product first" : "product"}  key={product["uuid"]}>
                 <div className="content">
-                    <div className="check">
+                    <div className={cartProducts[i] ? "check selected" : "check"} onClick={() => addToCart(i)}>
                     </div>
                     <div className="description">
                         <div className="nameContainer">
@@ -146,6 +188,14 @@ export default function CheckList() {
         </Popup>
     </React.Fragment>
 
+    const payNow = cartProducts.reduce((prev, current) => prev || current) 
+        ?
+            <div className="payNow" onClick={() => payAllProducts()}>
+                Pay Now
+            </div>
+        : null
+
+
     return (
         <Tab>
             <div className="checkList">
@@ -154,6 +204,7 @@ export default function CheckList() {
                     <img src={AddIcon} alt="" className="addIcon" />
                 </div>
                 {addProducts}
+                {payNow}
             </div>
         </Tab>
     )
