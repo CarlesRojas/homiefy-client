@@ -11,6 +11,7 @@ import "./PostIt.scss";
 import Electricity from "resources/pictures/Electricity.png";
 import Water from "resources/pictures/Water.png";
 import Rent from "resources/pictures/Rent.png";
+import JiaImage from "resources/pictures/JiaImage.png";
 
 
 // Icons
@@ -30,32 +31,36 @@ const Header = () => {
 };
 
 const CardView = ({postIt, deleteAction, postItList}) => {
-    var secondsToDissappear = 60
-    // var createdDate = new Date(postIt.createdDate)
-    var createdDate = moment(new Date()).subtract(Math.floor(Math.random() * 30) + 1, 's').toDate();
+
+    const { profilePictures, colors } = useContext(Data);
+
+    var secondsToDissappear = 60 * 60 * 24 * postIt.period
+    var createdDate = new Date(postIt.createdDate);
     var newDateObj = moment(createdDate).add(secondsToDissappear, 's').toDate();
     
     // Total seconds
     var dif = newDateObj.getTime() - createdDate.getTime();
     var dif = dif / 1000;
     var total = Math.abs(dif);
-    // console.log(`[ID ${postIt.id}] - Total: ${total}`)
+    // console.log(`[ID ${postIt.uuid}] - Total: ${total}`)
 
     // Seconds left
     var currentDate = new Date()
     var dif2 = newDateObj.getTime() - currentDate.getTime();
     dif2 = dif2 / 1000;
     var secondsLeft = Math.abs(dif2);
-    // console.log(`[ID ${postIt.id}] - Current step: ${currentStep}`)
-    // console.log(`[ID ${postIt.id}] - ${secondsLeft}`)
+
+    var daysCompleted = (1 - secondsLeft / total)
+    // console.log(`[ID ${postIt.uuid}] - Current step: ${currentStep}`)
+    // console.log(`[ID ${postIt.uuid}] - ${secondsLeft}`)
 
     // Progress bar ref
     const progressBarRef = useRef(null);
 
     useEffect(() => {
         if (progressBarRef.current) {
-            progressBarRef.current.style.transition = `width ${secondsLeft}s linear`;
-            progressBarRef.current.style.width = "0%";
+            // progressBarRef.current.style.transition = `width ${secondsLeft}s linear`;
+            // progressBarRef.current.style.width = "0%";
         }
 
         // animate again when any post it is deleted
@@ -63,20 +68,46 @@ const CardView = ({postIt, deleteAction, postItList}) => {
 
     useEffect(() => {
         setTimeout(() => {
-            deleteAction(postIt.id)
+            deleteAction(postIt.username, postIt.uuid)
         }, secondsLeft * 1000);
-        
     }, [])
+
+    var priorityString = ""
+    var priorityImage = null
+    if (postIt.priorityType == 0) {
+        priorityString = "Low Priority"
+        priorityImage = Electricity
+    } else if (postIt.priorityType == 1) {
+        priorityString = "Medium Priority"
+        priorityImage = Water
+    } else {
+        priorityString = "High Priority"
+        priorityImage = Rent
+        
+    }
 
     return (
         <div className="cardViewContent">
             <div className="firstRow">
-                <div className="userPhotoContainer">
-                    <img src={UserIcon} alt="" className="userPhoto"></img>
+                <div className="leftContainer">
+                    <img src={priorityImage} className="priorityImg"></img>
                 </div>
-                <div className="username">
-                    <p>{postIt.username}</p>
+                <div className="middleContainer">
+                    <div className="userPhotoContainer">
+                        <img src={JiaImage} className="userPhoto"></img>
+                    </div>
+                    <div className="username">
+                        <p>{postIt.username}</p>
+                    </div>
                 </div>
+                <div className="rightContainer">
+                    <div className="people">
+                        {postIt.people.map((name, i) => (
+                            <img key={i} src={profilePictures.current[name]} alt="" className="profilePicture" />
+                        ))}
+                    </div>
+                    
+                </div>               
             </div>
             <div className="secondRow">
                 <div className="textContent">
@@ -85,9 +116,9 @@ const CardView = ({postIt, deleteAction, postItList}) => {
             </div>
             <div className="thirdRow">
                 <div className="progressBar">
-                    {/* <p className="period">{total} seconds</p> */}
-                    <div className="bar" ref={progressBarRef} style={{ width: `${(secondsLeft / total) * 100}%`}}></div>
-                    {/* <p className="timeLeft">{secondsLeft} seconds left</p> */}
+                    <p className="period">{(total / 24 / 60 / 60).toFixed(0)} days</p>
+                    <div className="bar" ref={progressBarRef} style={{ width: `${daysCompleted}%`}}></div>
+                    <p className="timeLeft">{(secondsLeft / 24 / 60 / 60).toFixed(0)} days left</p>
                 </div>
             </div>
         </div>
@@ -115,7 +146,7 @@ const ScrollView = ({ postItList, parentDeleteItem }) => {
 
 export default function PostIt() {
     // context
-    const { apiGetAllPostIt, apiAddPostIt, deletePostIt } = useContext(API);
+    const { apiGetAllPostIt, apiAddPostIt, apiDeletePostIt } = useContext(API);
     const { utilities, setUtilities, profilePictures } = useContext(Data);
     
     // State
@@ -142,11 +173,13 @@ export default function PostIt() {
         getAllPostIt()
     }, [])
 
-    const deleteHandler = (id) => {
-        deletePostIt(id)
-        getAllPostIt()
+    const deleteHandler = async (username, id) => {
+        console.log("Deleting " + id)
+        var response = await apiDeletePostIt(username, id);
+        console.log(response);
+        getAllPostIt();
         // setPostItList((oldState) => {
-        //     let newItems = oldState.filter((item) => item.id !== id);
+        //     let newItems = oldState.filter((item) => item.uuid !== id);
         //     return newItems
         // });
     };
@@ -199,7 +232,6 @@ export default function PostIt() {
     return (
         <Tab>
             <div className="postIt">
-                <Header></Header>
                 <ScrollView postItList={postItList} parentDeleteItem={deleteHandler}></ScrollView>
                 <Popup show={showAddPopup} setShow={setShowAddPopup}>
                     <p className="title">{formTitle.current}</p>

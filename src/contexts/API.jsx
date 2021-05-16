@@ -103,16 +103,16 @@ const APIProvider = ({ children }) => {
 
         const today = new Date();
 
-        var day = today.getDate();
-        var month = today.getMonth() + 1;
-        var year = today.getFullYear();
-        var createdDate = "";
+        // var day = today.getDate();
+        // var month = today.getMonth() + 1;
+        // var year = today.getFullYear();
+        // var createdDate = "";
 
-        if(month < 10) {
-            createdDate = `${day}-0${month}-${year}`;
-        } else {
-            createdDate = `${day}-${month}-${year}`;
-        }
+        // if(month < 10) {
+        //     createdDate = `${day}-0${month}-${year}`;
+        // } else {
+        //     createdDate = `${day}-${month}-${year}`;
+        // }
 
         // Post data
         var postData = {
@@ -121,7 +121,7 @@ const APIProvider = ({ children }) => {
             people: people,
             period: period,
             message: message,
-            createdDate: createdDate,
+            createdDate: today.toString(),
         };
 
         console.log(postData);
@@ -194,10 +194,10 @@ const APIProvider = ({ children }) => {
         }
     };
 
-    const deletePostIt = async (uuid) => {
+    const apiDeletePostIt = async (username, uuid) => {
         // Post data
         var postData = {
-            username: USER,
+            username: username,
             uuid: uuid,
         };
 
@@ -259,7 +259,7 @@ const APIProvider = ({ children }) => {
                 getUtilities,
                 addUtility,
                 deleteUtility,
-                deletePostIt,
+                apiDeletePostIt,
                 getMoneySummary,
                 USER,
             }}
